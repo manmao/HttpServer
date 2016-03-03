@@ -10,10 +10,12 @@ CPP_SRCS :=$(wildcard *.cpp)
 C_OBJS := $(addprefix $(MAKEROOT)/obj/,$(patsubst %.c,%.o,$(C_SRCS)))
 CPP_OBJS := $(addprefix $(MAKEROOT)/obj/,$(patsubst %.cpp,%.o,$(CPP_SRCS)))
 
-all: $(obj).depend $(C_OBJS)  $(CPP_OBJS) 
+all: $(obj).depend $(C_OBJS)  $(CPP_OBJS)
 
 .PHONY: all clean
 
+clean:
+	rm -rf .depend
 #########################################################################
 include $(MAKEROOT)/rules.mk
 

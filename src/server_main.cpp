@@ -2,44 +2,31 @@
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <unistd.h>
-
-#include "inet_sockets.h"
-#include "http/http_util.h"
+#include <assert.h>
 
 #include <iostream>
 
+#include "inet_sockets.h"
+#include "processpool.h"
+#include "cgi_conn.h"
+
+
 int main(int argc,char *argv[]){
-    int fd;
-    char buff[4096];
-    fd=inetListen("8080",SOCK_STREAM, NULL);
-    printf("server waiting: \n");
-    int afd=inetAccept(fd,"8080",NULL);
-    CHttpParser *parser=NULL;
-    CHttpResponseMaker maker;
 
-    while(1){
+    int listenfd=inetListen("8080",SOCK_STREAM, NULL);
+    assert(listenfd > 0);
 
-      if(afd>0){
+    processpool<cgi_conn> *pool = processpool<cgi_conn>::create(listenfd);
 
-          int size=read(afd,buff,4096);
-
-          if(size >0){
-
-             parser=new CHttpParser(buff,4096);
-             std::cout<< parser->get_param_string()<<std::endl;
-             std::cout<< parser->get_uri()<<std::endl;
-
-             string res;
-             string content="i am server";
-             string type="text/html";
-             string head="";
-             maker.make_string(content,res,type,head);
-
-             write(afd,res.c_str(),4069);
-
-          }
-          delete parser;
-      }
+    if(pool)
+    {
+        pool->run();  //exe same time
+        delete pool;
     }
+
+    /*正如前文提到的，main函数创建了文件描述符 listenfd,那么就由它亲自关闭之*/
+    close(listenfd);
+
     return 0;
 }
+
