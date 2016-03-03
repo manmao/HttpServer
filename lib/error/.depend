@@ -1,0 +1,4 @@
+/mnt/hgfs/share/project/obj/error_functions.o: error_functions.c \
+ /mnt/hgfs/share/project/inc/error/error_functions.h ename.c.inc
+/mnt/hgfs/share/project/obj/get_num.o: get_num.c \
+ /mnt/hgfs/share/project/inc/error/get_num.h
