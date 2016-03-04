@@ -4,6 +4,7 @@
  /mnt/hgfs/share/HttpServer/src/pool/threadpool.h \
  /mnt/hgfs/share/HttpServer/src/pool/locker.h \
  /mnt/hgfs/share/HttpServer/src/cgi/cgi_handle.h \
+ /mnt/hgfs/share/HttpServer/src/http_codec/http/http_util.h \
  /mnt/hgfs/share/HttpServer/src/cgi/cgi_conn.h \
  /mnt/hgfs/share/HttpServer/src/pool/threadpool.h \
  /mnt/hgfs/share/HttpServer/src/cgi/cgi_handle.h

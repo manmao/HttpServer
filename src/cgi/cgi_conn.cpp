@@ -26,10 +26,7 @@ void cgi_conn::init(int epollfd,
 void cgi_conn::process()
 {
     bool ret=this->tp->append(this->ch);
-    if(ret == true)
-        printf("add task sccuess!\n");
-    //printf("handle data....\n");
-
+    assert(ret == true);
 }
 
 
