@@ -17,7 +17,9 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 
-#include "processpool.h"
+#include "threadpool.h"
+#include "cgi_handle.h"
+
 
 /* 用于处理客户CGI 请求的类，它可以作为processpool 类的模版参数 */
 class cgi_conn
@@ -26,15 +28,14 @@ public:
     cgi_conn();
     ~cgi_conn();
     /* 初始化客户连接，清空读缓冲区 */
-    void init(int epollfd,int sockfd,const sockaddr_in& client_addr);
+    void init(int epollfd,int sockfd,const sockaddr_in& client_addr,threadpool<cgi_handle> *tp);
     void process();
-
-   }
-
 private:
     static int m_epollfd;
     int m_sockfd;
     sockaddr_in m_address;
+    threadpool<cgi_handle> *tp;
+    cgi_handle *ch;
 };
 
 #endif

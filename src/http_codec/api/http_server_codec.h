@@ -1,10 +1,10 @@
 #ifndef _HTTP_SVR_BASE_CODEC_H_
-#define _HTTP_SVR_BASE_CODEC_H_ 
+#define _HTTP_SVR_BASE_CODEC_H_
 
 #include <stdio.h>
 #include <string>
 #include "http_arg_define.h"
-#include "http_req.h"
+#include "http/http_req.h"
 
 using namespace std;
 using namespace httpsvr;
@@ -13,7 +13,7 @@ using namespace httpsvr;
 /**
 * @author feimat@baidu.com
 *
-* 
+*
 * <pre>
 * Http 公用协议类代码
 *

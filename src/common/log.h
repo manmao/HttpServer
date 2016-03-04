@@ -2,7 +2,7 @@
 #define __C_LOG_H
 
 /*
-功能: 
+功能:
        1.  Log类
 
 Created by Song, 2003-01
@@ -20,7 +20,7 @@ public:
 		int max_log_size,
 		int max_log_num = 10,
 		int * log_level_ptr = NULL);
-	
+
 	virtual ~CLog();
 
 public:
@@ -38,7 +38,7 @@ public:
 	};
 
 	// 取得log的级别
-	inline int get_log_level() const 
+	inline int get_log_level() const
 	{return _log_level_ptr != NULL ? (*_log_level_ptr):DEBUG_LOG;}
 
 	inline void set_log_level_ptr(int * log_level_ptr)
@@ -75,9 +75,9 @@ public:
 	int day_log_raw(const char * day_log_path, const char *fmt, ...);
 
 private:
-	
+
 	int shilft_files();
-	
+
 protected:
 	static const int LOG_SHIFT_COUNT  = 32;
 
@@ -92,10 +92,10 @@ protected:
 	volatile int * _log_level_ptr;
 
 	char _log_file_name[256];
-	
+
 	int _write_count;
 	int _proc_no;
-	
+
 	char _log_buf[16384];
 	char _error_text[256];
 };

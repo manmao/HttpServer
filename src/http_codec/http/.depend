@@ -1,0 +1,11 @@
+/mnt/hgfs/share/HttpServer/obj/http_req.o: http_req.cpp http_func.h \
+ http_head.h http_req.h http_base_str.h
+/mnt/hgfs/share/HttpServer/obj/http_rsp.o: http_rsp.cpp http_base_str.h \
+ http_rsp.h http_head.h
+/mnt/hgfs/share/HttpServer/obj/http_func.o: http_func.cpp http_func.h \
+ http_head.h
+/mnt/hgfs/share/HttpServer/obj/http_head.o: http_head.cpp http_head.h \
+ http_func.h
+/mnt/hgfs/share/HttpServer/obj/http_respond.o: http_respond.cpp \
+ http_base_str.h http_respond.h
+/mnt/hgfs/share/HttpServer/obj/http_util.o: http_util.cpp http_util.h

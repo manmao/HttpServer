@@ -2,9 +2,9 @@
 #include <errno.h>
 
 #include "http_server_codec.h"
-#include "http_req.h"
-#include "http_respond.h"
-#include "http_base_str.h"
+#include "http/http_req.h"
+#include "http/http_respond.h"
+#include "http/http_base_str.h"
 #include "json/json.h"
 
 
@@ -94,7 +94,7 @@ int ServerHttpCodec::decode_head(const string &buffer)
     int ret;
     ret = http_req.input(buffer.c_str() , buffer.length());
     //½âÂëhttpÇëÇó
-    if (ret || http_req.inited() != true) 
+    if (ret || http_req.inited() != true)
     {
         return ERR_HTTP_DECODE;
     }
@@ -129,7 +129,7 @@ int ServerHttpCodec::decode_download_file_req(string &fname)
 {
     fname.clear();
     if ( get_cmd_string()!="download" ) return -1;
-    
+
     fname = get_argu("fname");
     return 0;
 }
@@ -168,7 +168,7 @@ int ServerHttpCodec::encode_upload_file_rsp(const int &retcode,string &buffer)
 	root[ARG_RETCODE]=to_str(retcode);
 	http_body=root.toStyledString();
 	Chttp_simple_rsp::instance()->NormalResponse(buffer ,http_body ,HTTP_CONTENT_TYPE_HTML,0);
-	
+
 	return 0;
 }
 

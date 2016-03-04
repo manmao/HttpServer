@@ -1,0 +1,9 @@
+/mnt/hgfs/share/HttpServer/obj/server_main.o: server_main.cpp \
+ /mnt/hgfs/share/HttpServer/src/socket/inet_sockets.h \
+ /mnt/hgfs/share/HttpServer/src/pool/processpool.h \
+ /mnt/hgfs/share/HttpServer/src/pool/threadpool.h \
+ /mnt/hgfs/share/HttpServer/src/pool/locker.h \
+ /mnt/hgfs/share/HttpServer/src/cgi/cgi_handle.h \
+ /mnt/hgfs/share/HttpServer/src/cgi/cgi_conn.h \
+ /mnt/hgfs/share/HttpServer/src/pool/threadpool.h \
+ /mnt/hgfs/share/HttpServer/src/cgi/cgi_handle.h
