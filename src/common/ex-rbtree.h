@@ -24,7 +24,7 @@ using std::string;
 
 struct data_type{
     string url;
-    Context context;
+    Context *context;
 };
 
 //新建自己的数据

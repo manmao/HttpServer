@@ -54,12 +54,12 @@ public:
 	}
 
 	/**启动进程池**/
-	void run();
+	void run(Config *config);
 private:
 	void setup_sig_pipe();
     void setup_thread_pool(threadpool<cgi_handle> **tp);
 	void run_parent();
-	void run_child();
+	void run_child(Config *config);
 private:
 	/**进程池允许最大子进程数**/
 	static const int MAX_PROCESS_NUMBER=16;
@@ -222,32 +222,24 @@ void processpool<T>::setup_thread_pool(threadpool<cgi_handle> **tp)
 我们据此半段接下来要运行的父进程代码还是子进程代码
 **/
 template<typename T>
-void processpool<T>::run()
+void processpool<T>::run(Config *config)
 {
 	if(m_idx != -1)
 	{
-		run_child();
+		run_child(config);
 		return ;
 	}
 	run_parent();
 }
 
-
 template<typename T>
-void processpool<T>::run_child()
+void processpool<T>::run_child(Config *config)
 {
 	setup_sig_pipe();
-
-    //初始化配置
-    Config *config=new Config();
-    config->register_url_map();
-
     //设置线程池
     threadpool<cgi_handle> *tp=NULL;
     setup_thread_pool(&tp);
     assert(tp);
-
-
 
 	/*每个子进程都通过其在进程池中序号值m_idx找到与父进程通信的管道*/
 	int pipefd=m_sub_process[m_idx].m_pipefd[1];

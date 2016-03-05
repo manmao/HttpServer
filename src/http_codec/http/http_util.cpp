@@ -50,7 +50,7 @@ void CHttpResponseMaker::make_404_error(string& strResp)
 	strContent += "<head><title>404 Not Found</title></head>\r\n";
 	strContent += "<body bgcolor=\"white\">\r\n";
 	strContent += "<center><h1>404 Not Found</h1></center>\r\n";
-	strContent += "<hr><center>http_util</center>\r\n";
+	strContent += "<hr><center>HTTP Server</center>\r\n";
 	strContent += "</body>\r\n";
 	strContent += "</html>\r\n";
 	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
@@ -64,7 +64,7 @@ void CHttpResponseMaker::make_404_error(string& strResp)
 	sprintf(szTemp, "Content-Length: %d\r\n", (int)strContent.size());
 
 	strResp = "HTTP/1.1 404 Not Found\r\n";
-	strResp += "Server: http_util\r\n";
+	strResp += "Server: HTTP Server\r\n";
 	strResp += "Content-Type: text/html; charset=UTF-8\r\n";
 	strResp += szTemp;
 	strResp += "Connection: keep-alive\r\n";

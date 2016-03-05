@@ -1,0 +1,11 @@
+/mnt/hgfs/share/HttpServer/obj/register.o: register.cpp register.h \
+ /mnt/hgfs/share/HttpServer/src/common/Config.h \
+ /mnt/hgfs/share/HttpServer/src/common/Context.h \
+ /mnt/hgfs/share/HttpServer/src/common/Servlet.h \
+ /mnt/hgfs/share/HttpServer/src/http_codec/http/http_util.h \
+ /mnt/hgfs/share/HttpServer/src/common/HttpRequest.h \
+ /mnt/hgfs/share/HttpServer/src/common/HttpResponse.h \
+ /mnt/hgfs/share/HttpServer/src/common/ex-rbtree.h \
+ /mnt/hgfs/share/HttpServer/inc/rbtree.h \
+ /mnt/hgfs/share/HttpServer/src/servlet/ServletImpl.h \
+ /mnt/hgfs/share/HttpServer/src/common/Servlet.h ServletImpl.h

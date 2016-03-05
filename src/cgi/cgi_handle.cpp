@@ -72,20 +72,9 @@ void cgi_handle::req_dispathch()
          write(this->m_sockfd,res.c_str(),res.length()+1);
          return ;
     }
-
-    Context context=node->data_content->context;
-    if(this->parser->get_http_method() == HTTP_UTIL_METHOD_GET)
-    {
-        context.st->get();
-    }
-    else if(this->parser->get_http_method() == HTTP_UTIL_METHOD_POST)
-    {
-        context.st->post();
-    }
+    Context *context=node->data_content->context;
+    //在这里初始化Servlet数据
+    context->st->create(this->parser,this->m_sockfd);
 }
-
-
-
-
 
 

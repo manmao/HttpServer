@@ -3,6 +3,8 @@
  /mnt/hgfs/share/HttpServer/src/common/Config.h \
  /mnt/hgfs/share/HttpServer/src/common/Context.h \
  /mnt/hgfs/share/HttpServer/src/common/Servlet.h \
+ /mnt/hgfs/share/HttpServer/src/common/HttpRequest.h \
+ /mnt/hgfs/share/HttpServer/src/common/HttpResponse.h \
  /mnt/hgfs/share/HttpServer/src/common/ex-rbtree.h \
  /mnt/hgfs/share/HttpServer/inc/rbtree.h \
  /mnt/hgfs/share/HttpServer/src/servlet/ServletImpl.h \
@@ -15,6 +17,8 @@
  /mnt/hgfs/share/HttpServer/src/common/Config.h \
  /mnt/hgfs/share/HttpServer/src/common/Context.h \
  /mnt/hgfs/share/HttpServer/src/common/Servlet.h \
+ /mnt/hgfs/share/HttpServer/src/common/HttpRequest.h \
+ /mnt/hgfs/share/HttpServer/src/common/HttpResponse.h \
  /mnt/hgfs/share/HttpServer/src/common/ex-rbtree.h \
  /mnt/hgfs/share/HttpServer/inc/rbtree.h \
  /mnt/hgfs/share/HttpServer/src/servlet/ServletImpl.h \
