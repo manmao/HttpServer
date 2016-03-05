@@ -10,8 +10,19 @@
 #include <errno.h>
 #include <string.h>
 
+
+#ifndef __cplusplus
+    extern "C"{
+#endif
+
 #include "error/get_num.h"
 
 #include "error/error_functions.h"
+
+
+#ifndef __cplusplus
+}
+#endif
+
 
 #endif

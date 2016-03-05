@@ -5,6 +5,13 @@
  /mnt/hgfs/share/HttpServer/src/pool/locker.h \
  /mnt/hgfs/share/HttpServer/src/cgi/cgi_handle.h \
  /mnt/hgfs/share/HttpServer/src/http_codec/http/http_util.h \
+ /mnt/hgfs/share/HttpServer/src/common/Config.h \
+ /mnt/hgfs/share/HttpServer/src/common/Context.h \
+ /mnt/hgfs/share/HttpServer/src/common/Servlet.h \
+ /mnt/hgfs/share/HttpServer/src/common/ex-rbtree.h \
+ /mnt/hgfs/share/HttpServer/inc/rbtree.h \
+ /mnt/hgfs/share/HttpServer/src/servlet/ServletImpl.h \
+ /mnt/hgfs/share/HttpServer/src/common/Servlet.h \
  /mnt/hgfs/share/HttpServer/src/cgi/cgi_conn.h \
  /mnt/hgfs/share/HttpServer/src/pool/threadpool.h \
  /mnt/hgfs/share/HttpServer/src/cgi/cgi_handle.h

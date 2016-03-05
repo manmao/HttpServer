@@ -236,12 +236,18 @@ void processpool<T>::run()
 template<typename T>
 void processpool<T>::run_child()
 {
-
 	setup_sig_pipe();
+
+    //初始化配置
+    Config *config=new Config();
+    config->register_url_map();
+
     //设置线程池
     threadpool<cgi_handle> *tp=NULL;
     setup_thread_pool(&tp);
     assert(tp);
+
+
 
 	/*每个子进程都通过其在进程池中序号值m_idx找到与父进程通信的管道*/
 	int pipefd=m_sub_process[m_idx].m_pipefd[1];
@@ -259,7 +265,6 @@ void processpool<T>::run_child()
 			printf("epoll failuer\n");
 			break;
 		}
-
 		for(int i=0;i<number;i++)
 		{
 			int sockfd=events[i].data.fd;
@@ -282,11 +287,10 @@ void processpool<T>::run_child()
 						printf("errno is:%d\n",errno);
 						continue;
 					}
-
 					addfd(m_epollfd,connfd);
 					/**模版类T必须实现init方法，以初始化一个客户端连接。
 					我们直接使用connfd来索引逻辑处理对象，提高程序效率**/
-					user[connfd].init(m_epollfd,connfd,client_address,tp);
+					user[connfd].init(m_epollfd,connfd,client_address,tp,config);
 				}
 			}
 			else if((sockfd == sig_pipefd[0]) && (events[i].events&EPOLLIN))
@@ -354,12 +358,9 @@ void processpool<T>::run_child()
 template<typename T>
 void processpool<T>::run_parent()
 {
-
 	setup_sig_pipe();
-
 	/** 父进程监听 m_listenfd **/
 	addfd(m_epollfd,m_listenfd);
-
     epoll_event events[MAX_EVENT_NUMBER];
 	int sub_process_counter=0;
 	int new_conn=1;

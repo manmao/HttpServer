@@ -1,1 +1,3 @@
+/mnt/hgfs/share/HttpServer/obj/ex-rbtree.o: ex-rbtree.cpp ex-rbtree.h \
+ /mnt/hgfs/share/HttpServer/inc/rbtree.h Context.h Servlet.h
 /mnt/hgfs/share/HttpServer/obj/log.o: log.cpp log.h

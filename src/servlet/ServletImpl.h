@@ -2,6 +2,7 @@
 #define __SERVERIMPL_LET_H
 
 #include <stdio.h>
+#include "Servlet.h"
 
 class ServletImpl:public Servlet{
 public:

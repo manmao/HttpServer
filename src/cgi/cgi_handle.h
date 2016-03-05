@@ -17,10 +17,11 @@
 #include <stdio.h>
 
 #include "http/http_util.h"
+#include "Config.h"
 
 class cgi_handle{
 public:
-    cgi_handle(int epollfd,int sockfd,struct sockaddr_in address);
+    cgi_handle(int epollfd,int sockfd,struct sockaddr_in address,Config *conf);
     ~cgi_handle();
     int process();
     void req_dispathch();
@@ -32,9 +33,7 @@ private:
     struct sockaddr_in m_address;
 private:
     CHttpParser *parser;
+    Config *config;
 };
-
-
-
 
 #endif

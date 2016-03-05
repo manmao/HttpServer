@@ -72,6 +72,36 @@ void CHttpResponseMaker::make_404_error(string& strResp)
 	strResp += strContent;
 }
 
+void CHttpResponseMaker::make_400_error(string& strResp)
+{
+	string strContent;
+	strContent += "<html>\r\n";
+	strContent += "<head><title>400 Server Error</title></head>\r\n";
+	strContent += "<body bgcolor=\"white\">\r\n";
+	strContent += "<center><h1>400 Server Error</h1></center>\r\n";
+	strContent += "<hr><center>HTTP Server</center>\r\n";
+	strContent += "</body>\r\n";
+	strContent += "</html>\r\n";
+	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
+	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
+	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
+	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
+	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
+	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
+
+	char szTemp[100];
+	sprintf(szTemp, "Content-Length: %d\r\n", (int)strContent.size());
+
+	strResp = "HTTP/1.1 400 Bad Request\r\n";
+	strResp += "Server: HttpServer\r\n";
+	strResp += "Content-Type: text/html; charset=UTF-8\r\n";
+	strResp += szTemp;
+	strResp += "Connection: keep-alive\r\n";
+	strResp += "\r\n";
+	strResp += strContent;
+}
+
+
 void CHttpResponseMaker::make_302_error(const string& strLocation, const string& strMoveTo, string& strResp)
 {
 	string strContent;

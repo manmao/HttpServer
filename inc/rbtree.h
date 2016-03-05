@@ -1,7 +1,7 @@
 /*
   Red Black Trees
   (C) 1999  Andrea Arcangeli <andrea@suse.de>
-  
+
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation; either version 2 of the License, or
@@ -94,6 +94,9 @@ static inline struct page * rb_insert_page_cache(struct inode * inode,
 #ifndef	_LINUX_RBTREE_H
 #define	_LINUX_RBTREE_H
 
+
+
+
 #include <stdio.h>
 
 struct rb_node
@@ -111,12 +114,20 @@ struct rb_root
 	struct rb_node *rb_node;
 };
 
+
+#ifdef __cplusplus
+    extern "C" {
+#endif
+
+
 #define rb_parent(r)   ((struct rb_node *)((r)->rb_parent_color & ~3))
 #define rb_color(r)   ((r)->rb_parent_color & 1)
 #define rb_is_red(r)   (!rb_color(r))
 #define rb_is_black(r) rb_color(r)
 #define rb_set_red(r)  do { (r)->rb_parent_color &= ~1; } while (0)
 #define rb_set_black(r)  do { (r)->rb_parent_color |= 1; } while (0)
+
+
 
 static inline void rb_set_parent(struct rb_node *rb, struct rb_node *p)
 {
@@ -144,7 +155,7 @@ extern struct rb_node *rb_first(const struct rb_root *);
 extern struct rb_node *rb_last(const struct rb_root *);
 
 /* Fast replacement of a single node without remove/rebalance/add/rebalance */
-extern void rb_replace_node(struct rb_node *victim, struct rb_node *news, 
+extern void rb_replace_node(struct rb_node *victim, struct rb_node *news,
 			    struct rb_root *root);
 
 static inline void rb_link_node(struct rb_node * node, struct rb_node * parent,
@@ -152,8 +163,12 @@ static inline void rb_link_node(struct rb_node * node, struct rb_node * parent,
 {
 	node->rb_parent_color = (unsigned long )parent;
 	node->rb_left = node->rb_right = NULL;
-	
+
 	*rb_link = node;
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif	/* _LINUX_RBTREE_H */

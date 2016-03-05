@@ -19,6 +19,7 @@
 
 #include "threadpool.h"
 #include "cgi_handle.h"
+#include "Config.h"
 
 
 /* 用于处理客户CGI 请求的类，它可以作为processpool 类的模版参数 */
@@ -28,7 +29,7 @@ public:
     cgi_conn();
     ~cgi_conn();
     /* 初始化客户连接，清空读缓冲区 */
-    void init(int epollfd,int sockfd,const sockaddr_in& client_addr,threadpool<cgi_handle> *tp);
+    void init(int epollfd,int sockfd,const sockaddr_in& client_addr,threadpool<cgi_handle> *tp,Config *config);
     void process();
 private:
     static int m_epollfd;
@@ -36,6 +37,9 @@ private:
     sockaddr_in m_address;
     threadpool<cgi_handle> *tp;
     cgi_handle *ch;
+private:
+    Config *config;
+
 };
 
 #endif

@@ -17,8 +17,6 @@ public:
     void Forbidden(string &strrsp, const string& http_body, const char *body_type);
     void BadRequest(string &strrsp, int error);
     void ServerBusy(string & strrsp);
-
-
 	~Chttp_simple_rsp();
 
 protected:

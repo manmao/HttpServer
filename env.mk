@@ -20,10 +20,12 @@ LIB =-lstdc++ -lpthread  -lz
 
 ##需要扫描的文件
 TARGET_DIRS :=src/  \
+				lib/  lib/error\
 				src/common  \
 				src/pool \
 				src/socket \
 				src/cgi \
+				src/servlet \
 				src/http_codec \
 				src/http_codec/api src/http_codec/http  src/http_codec/json \
 
@@ -35,6 +37,7 @@ INCLUDE_DIR :=  \
 	-I$(MAKEROOT)/src/pool \
 	-I$(MAKEROOT)/src/socket \
 	-I$(MAKEROOT)/src/cgi \
+	-I$(MAKEROOT)/src/servlet \
 	-I$(MAKEROOT)/src/http_codec \
 	-I$(MAKEROOT)/src/http_codec\api \
 	-I$(MAKEROOT)/src/http_codec\http \
