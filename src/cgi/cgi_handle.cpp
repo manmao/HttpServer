@@ -72,9 +72,17 @@ void cgi_handle::req_dispathch()
          write(this->m_sockfd,res.c_str(),res.length()+1);
          return ;
     }
+
     Context *context=node->data_content->context;
     //在这里初始化Servlet数据
+
     context->st->create(this->parser,this->m_sockfd);
+    //拷贝
+
+    //Context *copy=new Context();
+
+
+
 }
 
 

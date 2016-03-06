@@ -25,10 +25,11 @@ public:
     ~Servlet();
     void create(CHttpParser *parser,int sockfd);//放入构造数据，解析req
 public:
+
+public:
     virtual void init()=0;
     virtual void post(HttpRequest*req,HttpResponse *rsp)=0;
     virtual void get(HttpRequest *req,HttpResponse *rsp)=0;
-    virtual void destroy()=0;
 private:
     int m_sockfd;
 };

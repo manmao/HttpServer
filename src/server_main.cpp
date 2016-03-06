@@ -14,10 +14,15 @@
 int main(int argc,char *argv[]){
 
     //³õÊ¼»¯ÅäÖÃ
-    Config *config=new Config();
-    regist_servlet(config);
+    Config *config=NULL;
+    if(argc == 2){
+        config=new Config(argv[1]);
+    }else if(argc == 1){
+        config=new Config();
+    }
+    regist_servlet(config);//×¢²áServlet
 
-    int listenfd=inetListen("8080",SOCK_STREAM, NULL);
+    int listenfd=inetListen(config->listenPort.c_str(),SOCK_STREAM, NULL);
     assert(listenfd > 0);
     processpool<cgi_conn> *pool = processpool<cgi_conn>::create(listenfd);
     if(pool)

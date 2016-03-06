@@ -12,8 +12,7 @@
  /mnt/hgfs/share/HttpServer/src/common/HttpResponse.h \
  /mnt/hgfs/share/HttpServer/src/common/ex-rbtree.h \
  /mnt/hgfs/share/HttpServer/inc/rbtree.h \
- /mnt/hgfs/share/HttpServer/src/servlet/ServletImpl.h \
- /mnt/hgfs/share/HttpServer/src/common/Servlet.h \
+ /mnt/hgfs/share/HttpServer/src/common/rdconfig.h \
  /mnt/hgfs/share/HttpServer/src/cgi/cgi_conn.h \
  /mnt/hgfs/share/HttpServer/src/pool/threadpool.h \
  /mnt/hgfs/share/HttpServer/src/cgi/cgi_handle.h \

@@ -24,12 +24,7 @@ public:
     void get(HttpRequest*req,HttpResponse *rsp){
         printf("get method %s\n",req->get_param("man").c_str());
         printf("get method %s\n",req->get_uri().c_str());
-
-        rsp->send_rsp("123231");
-    }
-
-    void destroy(){
-        printf("destroy method\n");
+        rsp->send_rsp(req->get_param("man"));
     }
 };
 

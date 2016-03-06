@@ -9,6 +9,7 @@ extern "C"{
 #endif
 
 void regist_servlet(Config *config);
+
 #ifdef __cplusplus
 }
 #endif

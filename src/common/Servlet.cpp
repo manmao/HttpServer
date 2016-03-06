@@ -2,6 +2,7 @@
 
 Servlet::Servlet()
 {
+
 }
 
 Servlet::~Servlet()
@@ -13,7 +14,6 @@ void Servlet::create(CHttpParser *parser,int sockfd)
 {
     this->init();
     this->m_sockfd=sockfd;
-
     HttpResponse *rsp=new HttpResponse(sockfd);
     HttpRequest *req=(HttpRequest *)parser;
 
@@ -26,8 +26,6 @@ void Servlet::create(CHttpParser *parser,int sockfd)
         parser->parse_form_body();
         this->post(req,rsp);
     }
-
-    this->destroy();
 
 }
 
