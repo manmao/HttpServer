@@ -7,6 +7,8 @@
 #include <pthread.h>
 
 #include "locker.h"
+#include "ServletRegister.h"
+#include "register.h"
 
 template <typename T>
 class threadpool
@@ -98,8 +100,11 @@ void * threadpool<T>::worker(void *arg)
 template <typename T>
 void threadpool<T> ::run()
 {
+    ServletRegister *sr=new ServletRegister();
+    regist_servlet(sr);
+
 	while(!m_stop)
-	{
+    {
 		m_queuestat.wait();
 		m_queuelocker.lock();
 		if(m_workqueue.empty())
@@ -114,7 +119,7 @@ void threadpool<T> ::run()
 		{
 			continue;
 		}
-		request->process();/*运行请求的回调函数*/
+		request->process(sr);/*运行请求的回调函数*/
 
 	}
 }

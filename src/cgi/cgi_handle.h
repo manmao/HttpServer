@@ -18,13 +18,14 @@
 
 #include "http/http_util.h"
 #include "Config.h"
+#include "ServletRegister.h"
 
 class cgi_handle{
 public:
     cgi_handle(int epollfd,int sockfd,struct sockaddr_in address,Config *conf);
     ~cgi_handle();
-    int process();
-    void req_dispathch();
+    int process(ServletRegister *sr);
+    void req_dispathch(ServletRegister *sr);
 private:
    static void removefd(int epollfd,int fd);
 private:

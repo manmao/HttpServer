@@ -2,9 +2,9 @@
 #include "ServletImpl.h"
 
 //在这个函数内注册你的Servlet
-void regist_servlet(Config *config)
+void regist_servlet(ServletRegister *register)
 {
-    config->register_servlet("/man/m", new ServletImpl());
-    config->register_servlet("/man/mao", new ServletImpl());
+    register->register_servlet("/man/m", new ServletImpl());
+    register->register_servlet("/man/mao", new ServletImpl());
 }
 

@@ -24,7 +24,6 @@ public:
     Servlet();
     ~Servlet();
     void create(CHttpParser *parser,int sockfd);//放入构造数据，解析req
-public:
 
 public:
     virtual void init()=0;

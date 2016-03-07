@@ -57,7 +57,6 @@ public:
 	void run(Config *config);
 private:
 	void setup_sig_pipe();
-    void setup_thread_pool(threadpool<cgi_handle> **tp);
 	void run_parent();
 	void run_child(Config *config);
 private:
@@ -210,12 +209,7 @@ void processpool<T>::setup_sig_pipe()
 	addsig(SIGPIPE,SIG_IGN);
 }
 
-/**设置线程池**/
-template<typename T>
-void processpool<T>::setup_thread_pool(threadpool<cgi_handle> **tp)
-{
-    *tp=new threadpool<cgi_handle>();
-}
+
 
 /**
 父进程中m_idx值为-1,子进程中m_idx值大于等于0,
@@ -236,9 +230,9 @@ template<typename T>
 void processpool<T>::run_child(Config *config)
 {
 	setup_sig_pipe();
+
     //设置线程池
-    threadpool<cgi_handle> *tp=NULL;
-    setup_thread_pool(&tp);
+    threadpool<cgi_handle> *tp=new threadpool<cgi_handle>();
     assert(tp);
 
 	/*每个子进程都通过其在进程池中序号值m_idx找到与父进程通信的管道*/

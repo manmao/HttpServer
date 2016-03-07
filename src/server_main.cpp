@@ -11,8 +11,9 @@
 #include "cgi_conn.h"
 #include "register.h"
 
-int main(int argc,char *argv[]){
 
+int main(int argc,char *argv[])
+{
     //³õÊ¼»¯ÅäÖÃ
     Config *config=NULL;
     if(argc == 2){
@@ -20,7 +21,6 @@ int main(int argc,char *argv[]){
     }else if(argc == 1){
         config=new Config();
     }
-    regist_servlet(config);//×¢²áServlet
 
     int listenfd=inetListen(config->listenPort.c_str(),SOCK_STREAM, NULL);
     assert(listenfd > 0);
