@@ -17,6 +17,8 @@
 #include <stdio.h>
 
 #include "HttpRequest.h"
+#include "HttpResponse.h"
+
 #include "Config.h"
 #include "ServletRegister.h"
 
@@ -33,7 +35,8 @@ private:
     int m_sockfd;
     struct sockaddr_in m_address;
 private:
-    HttpRequest* parser;
+    HttpRequest* req;
+    HttpResponse* rsp;
     Config *config;
 };
 

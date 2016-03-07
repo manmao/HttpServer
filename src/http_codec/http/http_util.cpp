@@ -87,10 +87,10 @@ void CHttpResponseMaker::make_400_error(string& strResp)
 	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
 	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
 	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
-	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
+    strContent += "<!-- The padding to disable MSIE's friendly error page -->";
 
-	char szTemp[100];
-	sprintf(szTemp, "Content-Length: %d\r\n", (int)strContent.size());
+    char szTemp[100];
+    sprintf(szTemp, "Content-Length: %d\r\n", (int)strContent.size());
 
 	strResp = "HTTP/1.1 400 Bad Request\r\n";
 	strResp += "Server: HttpServer\r\n";

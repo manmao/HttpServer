@@ -1,4 +1,4 @@
-·#include "cgi_handle.h"
+#include "cgi_handle.h"
 #include "http/http_respond.h"
 
 cgi_handle::cgi_handle(int epollfd,int sockfd,struct sockaddr_in address,Config *conf)
@@ -6,13 +6,15 @@ cgi_handle::cgi_handle(int epollfd,int sockfd,struct sockaddr_in address,Config 
     this->m_epollfd=epollfd;
     this->m_sockfd=sockfd;
     this->m_address=address;
-    this->parser=NULL;
+    this->req=NULL;
+    this->rsp=NULL;
     this->config=conf;
 }
 
 cgi_handle::~cgi_handle()
 {
-
+    delete this->req;
+    delete this->rsp;
 }
 
 void cgi_handle::removefd(int epollfd,int fd)
@@ -24,6 +26,7 @@ void cgi_handle::removefd(int epollfd,int fd)
 int cgi_handle::process(ServletRegister *sr)
 {
    char http_content_buff[5120];
+   this->rsp=new HttpResponse(this->m_sockfd);
    while(1)
    {   //接收客户端发送过来的数据
        int buflen=recv(this->m_sockfd,http_content_buff,5120,0);
@@ -36,7 +39,6 @@ int cgi_handle::process(ServletRegister *sr)
                CHttpResponseMaker::make_400_error(res);
                write(this->m_sockfd,res.c_str(),res.length()+1);
            }
-
            return -1;
        }
        else if(buflen==0)              //客户端断开连接
@@ -47,16 +49,24 @@ int cgi_handle::process(ServletRegister *sr)
        }
        else if(buflen>0) //客户端发送数据过来了
        {
-          this->parser=new HttpRequest(http_content_buff,5120);
+          if(this->req)
+          {
+              delete this->req;
+              this->req=NULL;
+          }
+          this->req=new HttpRequest(http_content_buff,5120);
+
           //分发内容,执行请求的地址的内容和方法
           this->req_dispathch(sr);
        }
+       memset(http_content_buff,'0',5120);
    }
+
 }
 
 void cgi_handle::req_dispathch(ServletRegister *sr)
 {
-    string uri=this->parser->get_uri(); //获取请求url
+    string uri=this->req->get_uri(); //获取请求url
     struct rb_root mp=sr->get_url_map();
 
     //查找url对应的上下文
@@ -75,7 +85,7 @@ void cgi_handle::req_dispathch(ServletRegister *sr)
 
     Context *context=node->data_content->context;
     //在这里初始化Servlet数据
-    context->st->create(this->parser,this->m_sockfd);
+    context->st->create(this->req,this->rsp);
 
 }
 

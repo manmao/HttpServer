@@ -16,6 +16,7 @@
  /mnt/hgfs/share/HttpServer/src/common/rdconfig.h \
  /mnt/hgfs/share/HttpServer/src/cgi/cgi_handle.h \
  /mnt/hgfs/share/HttpServer/src/common/HttpRequest.h \
+ /mnt/hgfs/share/HttpServer/src/common/HttpResponse.h \
  /mnt/hgfs/share/HttpServer/src/cgi/cgi_conn.h \
  /mnt/hgfs/share/HttpServer/src/pool/threadpool.h \
  /mnt/hgfs/share/HttpServer/src/cgi/cgi_handle.h

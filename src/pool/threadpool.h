@@ -71,6 +71,7 @@ threadpool<T> :: ~threadpool()
 	m_stop=true;
 }
 
+
 template <typename T>
 bool threadpool<T>::append(T *request)
 {
@@ -111,15 +112,23 @@ void threadpool<T> ::run()
 			m_queuelocker.unlock();
 			continue;
 		}
-		T *request=m_workqueue.front();
+
+        T *request=m_workqueue.front();
 		m_workqueue.pop_front();
 		m_queuelocker.unlock();
 		if(!request)
 		{
 			continue;
 		}
+
+        //线程阻塞执行任务
 		request->process(sr);/*运行请求的回调函数*/
+
+        //释放这次请求的数据
+        delete request;
 	}
+
+    delete sr;
 }
 
 #endif

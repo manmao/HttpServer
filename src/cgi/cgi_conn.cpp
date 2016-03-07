@@ -8,8 +8,10 @@ cgi_conn::cgi_conn()
 
 cgi_conn::~cgi_conn()
 {
+   if(this->ch)
     delete this->ch;
 }
+
 
 void cgi_conn::init(int epollfd,
     int sockfd,
@@ -22,11 +24,13 @@ void cgi_conn::init(int epollfd,
     this->m_address = client_addr;
     this->tp=tp;
     this->config=config;
-    this->ch=new cgi_handle(epollfd,sockfd,client_addr,this->config);
 }
 
 void cgi_conn::process()
 {
+    //每次有数据到来就创建一个处理线程来读取数据执行
+    this->ch=new cgi_handle(this->m_epollfd,this->m_sockfd,this->m_address,this->config);
+    //添加到线程池队列，在threadpool.h中的void threadpool<T> ::run()弹出队列
     bool ret=this->tp->append(this->ch);
     assert(ret == true);
 }

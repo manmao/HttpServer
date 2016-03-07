@@ -1,6 +1,7 @@
 /mnt/hgfs/share/HttpServer/obj/cgi_handle.o: cgi_handle.cpp cgi_handle.h \
  /mnt/hgfs/share/HttpServer/src/common/HttpRequest.h \
  /mnt/hgfs/share/HttpServer/src/http_codec/http/http_util.h \
+ /mnt/hgfs/share/HttpServer/src/common/HttpResponse.h \
  /mnt/hgfs/share/HttpServer/src/common/Config.h \
  /mnt/hgfs/share/HttpServer/src/common/rdconfig.h \
  /mnt/hgfs/share/HttpServer/src/common/ServletRegister.h \
@@ -24,5 +25,6 @@
  /mnt/hgfs/share/HttpServer/inc/rbtree.h \
  /mnt/hgfs/share/HttpServer/src/servlet/register.h cgi_handle.h \
  /mnt/hgfs/share/HttpServer/src/common/HttpRequest.h \
+ /mnt/hgfs/share/HttpServer/src/common/HttpResponse.h \
  /mnt/hgfs/share/HttpServer/src/common/Config.h \
  /mnt/hgfs/share/HttpServer/src/common/rdconfig.h

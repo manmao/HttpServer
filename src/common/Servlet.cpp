@@ -2,20 +2,20 @@
 
 Servlet::Servlet()
 {
-
+    this->req=NULL;
+    this->rsp=NULL;
 }
 
 Servlet::~Servlet()
 {
-
 }
 
-void Servlet::create(HttpRequest*parser,int sockfd)
+void Servlet::create(HttpRequest*parser,HttpResponse *rsp)
 {
     this->init();
-    this->m_sockfd=sockfd;
-    HttpResponse *rsp=new HttpResponse(sockfd);
-    HttpRequest *req=parser;
+
+    this->rsp=rsp;
+    this->req=parser;
 
     if(parser->get_http_method( )== HTTP_UTIL_METHOD_GET)
     {

@@ -11,7 +11,6 @@
 #include "cgi_conn.h"
 #include "register.h"
 
-
 int main(int argc,char *argv[])
 {
     //初始化配置
@@ -22,6 +21,7 @@ int main(int argc,char *argv[])
         config=new Config();
     }
 
+    //初始化端口连接
     int listenfd=inetListen(config->listenPort.c_str(),SOCK_STREAM, NULL);
     assert(listenfd > 0);
     processpool<cgi_conn> *pool = processpool<cgi_conn>::create(listenfd);
