@@ -194,7 +194,8 @@ int inetAccept(int sockfd,
             socklen_t *addrlen){
 
       struct addrinfo hints;
-      struct addrinfo *result, *rp;
+      struct addrinfo *result=NULL;
+      struct addrinfo *rp=NULL;
       int acfd=-1;
 
       memset(&hints, 0, sizeof(struct addrinfo));

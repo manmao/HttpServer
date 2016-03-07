@@ -1,4 +1,4 @@
-#include "cgi_handle.h"
+·#include "cgi_handle.h"
 #include "http/http_respond.h"
 
 cgi_handle::cgi_handle(int epollfd,int sockfd,struct sockaddr_in address,Config *conf)
@@ -8,7 +8,6 @@ cgi_handle::cgi_handle(int epollfd,int sockfd,struct sockaddr_in address,Config 
     this->m_address=address;
     this->parser=NULL;
     this->config=conf;
-
 }
 
 cgi_handle::~cgi_handle()
@@ -22,7 +21,7 @@ void cgi_handle::removefd(int epollfd,int fd)
     close(fd);
 }
 
-int cgi_handle::process()
+int cgi_handle::process(ServletRegister *sr)
 {
    char http_content_buff[5120];
    while(1)
@@ -37,6 +36,7 @@ int cgi_handle::process()
                CHttpResponseMaker::make_400_error(res);
                write(this->m_sockfd,res.c_str(),res.length()+1);
            }
+
            return -1;
        }
        else if(buflen==0)              //客户端断开连接
@@ -47,17 +47,17 @@ int cgi_handle::process()
        }
        else if(buflen>0) //客户端发送数据过来了
        {
-          this->parser=new CHttpParser(http_content_buff,5120);
+          this->parser=new HttpRequest(http_content_buff,5120);
           //分发内容,执行请求的地址的内容和方法
-          this->req_dispathch();
+          this->req_dispathch(sr);
        }
    }
 }
 
-void cgi_handle::req_dispathch()
+void cgi_handle::req_dispathch(ServletRegister *sr)
 {
     string uri=this->parser->get_uri(); //获取请求url
-    struct rb_root mp=this->config->get_url_map();
+    struct rb_root mp=sr->get_url_map();
 
     //查找url对应的上下文
     struct data_type type;
@@ -75,13 +75,7 @@ void cgi_handle::req_dispathch()
 
     Context *context=node->data_content->context;
     //在这里初始化Servlet数据
-
     context->st->create(this->parser,this->m_sockfd);
-    //拷贝
-
-    //Context *copy=new Context();
-
-
 
 }
 

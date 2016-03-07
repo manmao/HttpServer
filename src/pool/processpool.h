@@ -19,6 +19,7 @@
 #include <stdbool.h>
 
 #include "threadpool.h"
+#include "Config.h"
 #include "cgi_handle.h"
 
 /***描述一个子进程的类,m_pipefd是父进程和子进程通信用的管道***/
@@ -57,7 +58,6 @@ public:
 	void run(Config *config);
 private:
 	void setup_sig_pipe();
-    void setup_thread_pool(threadpool<cgi_handle> **tp);
 	void run_parent();
 	void run_child(Config *config);
 private:
@@ -80,7 +80,7 @@ private:
 	int m_epollfd;
 
 	/**监听socket是否停止*/
-		int m_listenfd;
+	int m_listenfd;
 
 	/**子进程通过m_stop来决定**/
 	int m_stop;
@@ -115,13 +115,6 @@ static void addfd(int epollfd,int fd)
 	event.events=EPOLLIN|EPOLLET;
 	epoll_ctl(epollfd,EPOLL_CTL_ADD,fd,&event);
 	setnonblocking(fd);
-}
-
-/**从epollfd标识的epoll内核事件表中去除**/
-static void removefd(int epollfd,int fd)
-{
-	epoll_ctl(epollfd,EPOLL_CTL_DEL,fd,0);
-	close(fd);
 }
 
 
@@ -210,12 +203,7 @@ void processpool<T>::setup_sig_pipe()
 	addsig(SIGPIPE,SIG_IGN);
 }
 
-/**设置线程池**/
-template<typename T>
-void processpool<T>::setup_thread_pool(threadpool<cgi_handle> **tp)
-{
-    *tp=new threadpool<cgi_handle>();
-}
+
 
 /**
 父进程中m_idx值为-1,子进程中m_idx值大于等于0,
@@ -236,9 +224,9 @@ template<typename T>
 void processpool<T>::run_child(Config *config)
 {
 	setup_sig_pipe();
+
     //设置线程池
-    threadpool<cgi_handle> *tp=NULL;
-    setup_thread_pool(&tp);
+    threadpool<cgi_handle> *tp=new threadpool<cgi_handle>();
     assert(tp);
 
 	/*每个子进程都通过其在进程池中序号值m_idx找到与父进程通信的管道*/
@@ -287,7 +275,6 @@ void processpool<T>::run_child(Config *config)
 			}
 			else if((sockfd == sig_pipefd[0]) && (events[i].events&EPOLLIN))
 			{
-				int sig;
 				char signals[1024];
 				ret=recv(sig_pipefd[0],signals,sizeof(signals),0);
 				if(ret <= 0)
@@ -396,7 +383,6 @@ void processpool<T>::run_parent()
 			/*** 处理父进程接收到的信号 ***/
 			else if((sockfd == sig_pipefd[0]) && (events[i].events & EPOLLIN))
 			{
-				int sig;
 				char signals[1024];
 				ret=recv(sig_pipefd[0],signals,sizeof(signals),0);
 				if(ret <= 0)

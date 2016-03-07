@@ -6,58 +6,37 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <string>
-#include "Context.h"
-#include "ex-rbtree.h"
+
+using std::string;
 
 #include "rdconfig.h"
-#include "Servlet.h"
-using std::string;
+
 
 class Config
 {
 public:
     Config(string conf="conf/http.conf")
     {
-       this->url_map=rbtree_init();
        this->config_path=conf;
        this->read_config();
     }
 
-    //×¢²áÒ»¸öServlet
-    void register_servlet(string url,Servlet *servlet)
-    {
-        Context *context=new Context();
-        context->st=servlet;
-        struct data_type *content=new data_type;
-        content->context=context;
-        content->url=url;
-        rbtree_insert(&this->url_map,content);
-    }
-
-    struct rb_root get_url_map()
-    {
-        return this->url_map;
-    }
-
     void read_config()
     {
+        const char *config_file=this->config_path.c_str();
         char port[10];
-        get_config_string(this->config_path.c_str(),"http","port",port);
+        get_config_string(config_file,const_cast<char *>("http"),const_cast<char *>("port"),port);
 
-        char log_path[128];
-        get_config_string(this->config_path.c_str(),"http","logFilePath",log_path);
+        char log_path[516];
+        get_config_string(config_file,const_cast<char *>("http"),const_cast<char *>("logFilePath"),log_path);
 
-
-        char root_dir[128];
-        get_config_string(this->config_path.c_str(),"http","rootDir",root_dir);
+        char root_dir[516];
+        get_config_string(config_file,const_cast<char *>("http"),const_cast<char *>("rootDir"),root_dir);
 
         this->listenPort=port;
         this->logPath=log_path;
         this->rootDir=root_dir;
     }
-
-private:
-    struct rb_root url_map;
 
 public:
     string logPath;
