@@ -1,23 +1,28 @@
 /mnt/hgfs/share/HttpServer/obj/cgi_handle.o: cgi_handle.cpp cgi_handle.h \
+ /mnt/hgfs/share/HttpServer/src/common/HttpRequest.h \
  /mnt/hgfs/share/HttpServer/src/http_codec/http/http_util.h \
  /mnt/hgfs/share/HttpServer/src/common/Config.h \
+ /mnt/hgfs/share/HttpServer/src/common/rdconfig.h \
+ /mnt/hgfs/share/HttpServer/src/common/ServletRegister.h \
  /mnt/hgfs/share/HttpServer/src/common/Context.h \
  /mnt/hgfs/share/HttpServer/src/common/Servlet.h \
  /mnt/hgfs/share/HttpServer/src/common/HttpRequest.h \
  /mnt/hgfs/share/HttpServer/src/common/HttpResponse.h \
  /mnt/hgfs/share/HttpServer/src/common/ex-rbtree.h \
  /mnt/hgfs/share/HttpServer/inc/rbtree.h \
- /mnt/hgfs/share/HttpServer/src/common/rdconfig.h \
  /mnt/hgfs/share/HttpServer/src/http_codec/http/http_respond.h
 /mnt/hgfs/share/HttpServer/obj/cgi_conn.o: cgi_conn.cpp cgi_conn.h \
  /mnt/hgfs/share/HttpServer/src/pool/threadpool.h \
- /mnt/hgfs/share/HttpServer/src/pool/locker.h cgi_handle.h \
- /mnt/hgfs/share/HttpServer/src/http_codec/http/http_util.h \
- /mnt/hgfs/share/HttpServer/src/common/Config.h \
+ /mnt/hgfs/share/HttpServer/src/pool/locker.h \
+ /mnt/hgfs/share/HttpServer/src/common/ServletRegister.h \
  /mnt/hgfs/share/HttpServer/src/common/Context.h \
  /mnt/hgfs/share/HttpServer/src/common/Servlet.h \
+ /mnt/hgfs/share/HttpServer/src/http_codec/http/http_util.h \
  /mnt/hgfs/share/HttpServer/src/common/HttpRequest.h \
  /mnt/hgfs/share/HttpServer/src/common/HttpResponse.h \
  /mnt/hgfs/share/HttpServer/src/common/ex-rbtree.h \
  /mnt/hgfs/share/HttpServer/inc/rbtree.h \
+ /mnt/hgfs/share/HttpServer/src/servlet/register.h cgi_handle.h \
+ /mnt/hgfs/share/HttpServer/src/common/HttpRequest.h \
+ /mnt/hgfs/share/HttpServer/src/common/Config.h \
  /mnt/hgfs/share/HttpServer/src/common/rdconfig.h

@@ -47,7 +47,7 @@ int cgi_handle::process(ServletRegister *sr)
        }
        else if(buflen>0) //客户端发送数据过来了
        {
-          this->parser=new CHttpParser(http_content_buff,5120);
+          this->parser=new HttpRequest(http_content_buff,5120);
           //分发内容,执行请求的地址的内容和方法
           this->req_dispathch(sr);
        }
@@ -72,8 +72,8 @@ void cgi_handle::req_dispathch(ServletRegister *sr)
          write(this->m_sockfd,res.c_str(),res.length()+1);
          return ;
     }
-    Context *context=node->data_content->context;
 
+    Context *context=node->data_content->context;
     //在这里初始化Servlet数据
     context->st->create(this->parser,this->m_sockfd);
 

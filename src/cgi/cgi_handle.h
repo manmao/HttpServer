@@ -16,7 +16,7 @@
 #include <arpa/inet.h>
 #include <stdio.h>
 
-#include "http/http_util.h"
+#include "HttpRequest.h"
 #include "Config.h"
 #include "ServletRegister.h"
 
@@ -33,7 +33,7 @@ private:
     int m_sockfd;
     struct sockaddr_in m_address;
 private:
-    CHttpParser *parser;
+    HttpRequest* parser;
     Config *config;
 };
 

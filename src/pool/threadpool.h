@@ -87,7 +87,6 @@ bool threadpool<T>::append(T *request)
 	return true;
 }
 
-
 template <typename T>
 void * threadpool<T>::worker(void *arg)
 {
@@ -96,10 +95,10 @@ void * threadpool<T>::worker(void *arg)
 	return pool;
 }
 
-
 template <typename T>
 void threadpool<T> ::run()
 {
+    //每个线程都初始化所有的Servlet
     ServletRegister *sr=new ServletRegister();
     regist_servlet(sr);
 
@@ -120,7 +119,6 @@ void threadpool<T> ::run()
 			continue;
 		}
 		request->process(sr);/*运行请求的回调函数*/
-
 	}
 }
 

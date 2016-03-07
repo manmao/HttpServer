@@ -10,12 +10,12 @@ Servlet::~Servlet()
 
 }
 
-void Servlet::create(CHttpParser *parser,int sockfd)
+void Servlet::create(HttpRequest*parser,int sockfd)
 {
     this->init();
     this->m_sockfd=sockfd;
     HttpResponse *rsp=new HttpResponse(sockfd);
-    HttpRequest *req=(HttpRequest *)parser;
+    HttpRequest *req=parser;
 
     if(parser->get_http_method( )== HTTP_UTIL_METHOD_GET)
     {

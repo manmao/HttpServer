@@ -8,7 +8,7 @@
 extern "C"{
 #endif
 
-void regist_servlet(ServletRegister *register);
+extern void regist_servlet(ServletRegister* registe);
 
 #ifdef __cplusplus
 }
