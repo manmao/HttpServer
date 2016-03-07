@@ -37,7 +37,7 @@ int cgi_handle::process(ServletRegister *sr)
            }else{
                string res;
                CHttpResponseMaker::make_400_error(res);
-               write(this->m_sockfd,res.c_str(),res.length()+1);
+               send(this->m_sockfd,res.c_str(),res.length()+1,0);
            }
            return -1;
        }
@@ -80,10 +80,9 @@ void cgi_handle::req_dispathch(ServletRegister *sr)
     {
          string res;
          CHttpResponseMaker::make_404_error(res);
-         write(this->m_sockfd,res.c_str(),res.length()+1);
+         send(this->m_sockfd,res.c_str(),res.length()+1,0);
          return ;
     }
-
     Context *context=node->data_content->context;
     //在这里初始化Servlet数据
     context->st->create(this->req,this->rsp);

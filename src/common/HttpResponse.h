@@ -2,6 +2,7 @@
 #define __HTTPRESPONSE_H_
 
 #include <string>
+#include <sys/socket.h>
 using std::string;
 
 #include "http/http_util.h"
@@ -17,7 +18,7 @@ public:
     int send_rsp(string content){
         string res;
         CHttpResponseMaker::make_string(content,res,this->content_type,this->add_head);
-        write(this->m_sockfd,res.c_str(),res.length());
+        send(this->m_sockfd,res.c_str(),res.length(),0);
         return 0;
     }
 

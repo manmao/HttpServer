@@ -22,7 +22,7 @@ int main(int argc,char *argv[])
     }
 
     //初始化端口连接
-    int listenfd=inetListen(config->listenPort.c_str(),SOCK_STREAM, NULL);
+    int listenfd=inetListen(config->listenPort.c_str(),SOCK_STREAM|SOCK_NONBLOCK, NULL);
     assert(listenfd > 0);
     processpool<cgi_conn> *pool = processpool<cgi_conn>::create(listenfd);
     if(pool)
