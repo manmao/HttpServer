@@ -8,8 +8,6 @@ cgi_conn::cgi_conn()
 
 cgi_conn::~cgi_conn()
 {
-   if(this->ch)
-    delete this->ch;
 }
 
 

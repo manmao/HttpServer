@@ -54,14 +54,15 @@ int cgi_handle::process(ServletRegister *sr)
               delete this->req;
               this->req=NULL;
           }
+
           this->req=new HttpRequest(http_content_buff,5120);
 
           //分发内容,执行请求的地址的内容和方法
           this->req_dispathch(sr);
        }
+
        memset(http_content_buff,'0',5120);
    }
-
 }
 
 void cgi_handle::req_dispathch(ServletRegister *sr)

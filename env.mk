@@ -48,7 +48,7 @@ LIB_DIR := -L$(MAKEROOT)/lib \
 
 CFLAGS  := $(INCLUDE_DIR)
 
-CFLAGS += -c -Wall -O2 -g -D_USE_HTTP_PROTO_
+CFLAGS += -c -Wall -O2 -D_USE_HTTP_PROTO_
 
 #对所有的.o文件以.c文件创建它
 
