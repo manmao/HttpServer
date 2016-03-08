@@ -6,10 +6,13 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <string>
+#include <fcntl.h>
+//#include <>
 
 using std::string;
 
 #include "rdconfig.h"
+#include "error_hdr.h"
 
 
 class Config
@@ -18,10 +21,15 @@ public:
     Config(string conf="conf/http.conf")
     {
        this->config_path=conf;
-       this->read_config();
-    }
+       this->init_config();
 
-    void read_config()
+       int ret=access(const_cast<char *>(conf.c_str()),F_OK); //mode
+       if(ret)
+       {
+            errExit("config file is not exit! %s,%s,%d\n",__FILE__,__func__,__LINE__);
+       }
+    }
+    void init_config()
     {
         const char *config_file=this->config_path.c_str();
         char port[10];

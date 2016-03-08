@@ -7,7 +7,6 @@
 #define max(m,n) ((m) > (n)?(m):(n))
 
 
-//
 void errMsg(const char *format,...);
 
 #ifdef __GNUC__
@@ -22,5 +21,6 @@ void errExitEN(int errnum,const char *format,...) ;
 void fatal(const char *format,...);
 void usageErr(const char *format,...);
 void cmdLineErr(const char *format,...);
+
 
 #endif

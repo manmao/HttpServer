@@ -25,6 +25,9 @@ typedef int Bool;
 #define TRUE 1
 #define FALSE 0
 
+#ifdef __cplusplus
+ extern "C"{
+#endif
 //连接到指定的Ip:port,可以指定TCP或者UDP
 //例子:
 //   inetConnetc("127.0.0.1","8080",SOCK_STREAM); //建立一个TCP连接
@@ -48,5 +51,8 @@ char *inetAddressStr(const struct sockaddr *addr, socklen_t addrlen,
 ///用于TCP 接收客户端的连接
 int inetAccept(int sockfd,const char *service, socklen_t *addrlen);
 
- 
+#ifdef __cplusplus
+}
+#endif
+
 #endif

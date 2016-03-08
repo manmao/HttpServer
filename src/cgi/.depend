@@ -4,6 +4,9 @@
  /mnt/hgfs/share/HttpServer/src/common/HttpResponse.h \
  /mnt/hgfs/share/HttpServer/src/common/Config.h \
  /mnt/hgfs/share/HttpServer/src/common/rdconfig.h \
+ /mnt/hgfs/share/HttpServer/inc/error_hdr.h \
+ /mnt/hgfs/share/HttpServer/inc/error/get_num.h \
+ /mnt/hgfs/share/HttpServer/inc/error/error_functions.h \
  /mnt/hgfs/share/HttpServer/src/common/ServletRegister.h \
  /mnt/hgfs/share/HttpServer/src/common/Context.h \
  /mnt/hgfs/share/HttpServer/src/common/Servlet.h \
@@ -27,4 +30,7 @@
  /mnt/hgfs/share/HttpServer/src/common/HttpRequest.h \
  /mnt/hgfs/share/HttpServer/src/common/HttpResponse.h \
  /mnt/hgfs/share/HttpServer/src/common/Config.h \
- /mnt/hgfs/share/HttpServer/src/common/rdconfig.h
+ /mnt/hgfs/share/HttpServer/src/common/rdconfig.h \
+ /mnt/hgfs/share/HttpServer/inc/error_hdr.h \
+ /mnt/hgfs/share/HttpServer/inc/error/get_num.h \
+ /mnt/hgfs/share/HttpServer/inc/error/error_functions.h

@@ -5,9 +5,7 @@
 #include "ex-rbtree.h"
 #include "Servlet.h"
 
-
 class ServletRegister{
-
 public:
     ServletRegister()
     {

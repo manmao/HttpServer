@@ -11,7 +11,7 @@
 #include <string.h>
 
 
-#ifndef __cplusplus
+#ifdef __cplusplus
     extern "C"{
 #endif
 
@@ -20,7 +20,7 @@
 #include "error/error_functions.h"
 
 
-#ifndef __cplusplus
+#ifdef __cplusplus
 }
 #endif
 

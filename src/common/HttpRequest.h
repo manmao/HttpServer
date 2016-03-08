@@ -11,6 +11,7 @@ public:
         int nExtraParamType = HTTP_UTIL_PARAM_ALL):CHttpParser(szHttpReq,nDataLen,nExtraParamType){}
     ~HttpRequest(){}
 private:
+
 };
 
 #endif

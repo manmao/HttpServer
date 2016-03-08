@@ -8,6 +8,8 @@
 #define GN_BASE_8 	0200
 #define GN_BASE_16  0400
 
+
+
 long getLong(const char *arg,int flags,const char *name);
 
 int getInt(const char *arg,int flags,const char *name);

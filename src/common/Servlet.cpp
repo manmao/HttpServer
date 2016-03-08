@@ -21,6 +21,7 @@ void Servlet::create(HttpRequest*parser,HttpResponse *rsp)
     {
         this->get(req,rsp);
     }
+
     else if(parser->get_http_method( )== HTTP_UTIL_METHOD_POST)
     {
         parser->parse_form_body();

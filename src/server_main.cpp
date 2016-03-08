@@ -16,7 +16,7 @@ int main(int argc,char *argv[])
     //≥ı ºªØ≈‰÷√
     Config *config=NULL;
     if(argc == 2){
-        config=new Config(argv[1]);
+       config=new Config(argv[1]);
     }else if(argc == 1){
         config=new Config();
     }
