@@ -35,16 +35,17 @@ int cgi_handle::process(ServletRegister *sr)
        if(buflen < 0)
        {
            if(errno== EAGAIN || errno == EINTR){ //即当buflen<0且errno=EAGAIN时，表示没有数据了。(读/写都是这样)
-
+                //数据读取完成
            }else{
-               string res;
-               CHttpResponseMaker::make_400_error(res);
-               send(this->m_sockfd,res.c_str(),res.length()+1,0);
+                //错误数据
            }
+           string res;
+           CHttpResponseMaker::make_400_error(res);
+           send(this->m_sockfd,res.c_str(),res.length()+1,0);
            cgi_handle::removefd(this->m_epollfd,this->m_sockfd);
            return -1;
        }
-       else if(buflen==0)              //客户端断开连接
+       else if(buflen==0)  //客户端断开连接
        {
            /**将文件描述符从epoll队列中移除**/
            cgi_handle::removefd(this->m_epollfd,this->m_sockfd);
