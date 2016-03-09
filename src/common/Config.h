@@ -6,10 +6,12 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <string>
+#include <map>
 #include <fcntl.h>
 //#include <>
 
 using std::string;
+using std::map;
 
 #include "rdconfig.h"
 #include "error_hdr.h"
@@ -21,14 +23,15 @@ public:
     Config(string conf="conf/http.conf")
     {
        this->config_path=conf;
-       this->init_config();
-
        int ret=access(const_cast<char *>(conf.c_str()),F_OK); //mode
        if(ret)
        {
             errExit("config file is not exit! %s,%s,%d\n",__FILE__,__func__,__LINE__);
        }
+       this->init_config();
+       this->init_type_map();
     }
+
     void init_config()
     {
         const char *config_file=this->config_path.c_str();
@@ -45,12 +48,27 @@ public:
         this->logPath=log_path;
         this->rootDir=root_dir;
     }
-
+    void init_type_map()
+    {
+        type_map["html"]="text/html";
+        type_map["jpeg"]="image/jpeg";
+        type_map["jpg"]="image/jpeg";
+        type_map["doc"]="application/x-download";
+        type_map["pdf"]="application/x-download";
+        type_map["png"]="image/png";
+        type_map["bmp"]="image/bmp";
+        type_map["other"]="application/x-download";
+    }
+    ~Config()
+    {
+    }
 public:
     string logPath;
     string listenPort;
     string rootDir;
     string config_path;
+    map<string,string> type_map;
+
 
 };
 

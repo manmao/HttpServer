@@ -20,20 +20,30 @@
 
 int CHttpResponseMaker::make(const char* szContent, int nContentLen,int totalContentLen,char* szBuffer, int nBufferSize, const char* content_type)
 {
-	int nRealContentLen = 0;
-	if(nContentLen > 0)
-		nRealContentLen = totalContentLen;
+    int nRealContentLen = 0;
+    if(nContentLen > 0)
+        nRealContentLen = totalContentLen;
 
-	sprintf(szBuffer, "HTTP/1.1 200 OK\r\nContent-Length: %d\r\nContent-Type: %s;charset=utf-8\r\nConnection: Keep-Alive\r\n\r\n",
-		nRealContentLen, content_type);
-	int nHeadLen = strlen(szBuffer);
-	if(nContentLen > 0)
-	{
-		memcpy(szBuffer+nHeadLen, szContent, nContentLen);
-		szBuffer[nHeadLen + nContentLen] = 0;
-	}
-	return strlen(szBuffer);
+    sprintf(szBuffer, "HTTP/1.1 200 OK\r\nContent-Length: %d\r\nContent-Type: %s;charset=UTF-8\r\nConnection: Keep-Alive\r\n\r\n",
+        nRealContentLen, content_type);
+    int nHeadLen = strlen(szBuffer);
+
+    if(nContentLen > 0)
+    {
+        memcpy(szBuffer+nHeadLen, szContent, nContentLen);
+        szBuffer[nHeadLen + nContentLen] = 0;
+    }
+    return strlen(szBuffer);
 }
+
+int CHttpResponseMaker::make_headers(int totalContentLen ,char* szBuffer,const char* content_type)
+{
+   sprintf(szBuffer, "HTTP/1.1 200 OK\r\nContent-Length: %d\r\nContent-Type: %s;charset=UTF-8\r\nConnection: Keep-Alive\r\n\r\n",
+        totalContentLen, content_type);
+   return strlen(szBuffer);
+}
+
+
 
 void CHttpResponseMaker::make_string(const string& strContent, string& strResp, string& content_type, string& add_head)
 {

@@ -36,11 +36,13 @@ template <typename T>
 threadpool<T>::threadpool(int thread_number,int max_requests) :
 	m_thread_number(thread_number),m_max_requests(max_requests),m_stop(false),m_threads(NULL)
 {
+
 	if((thread_number <= 0) || (max_requests <= 0))
 	{
 		throw std::exception();
 	}
-	m_threads = new pthread_t[m_thread_number];
+
+    m_threads = new pthread_t[m_thread_number];
 	if(!m_threads)
 	{
 		throw std::exception();
@@ -88,6 +90,7 @@ bool threadpool<T>::append(T *request)
 	return true;
 }
 
+
 template <typename T>
 void * threadpool<T>::worker(void *arg)
 {
@@ -95,6 +98,8 @@ void * threadpool<T>::worker(void *arg)
 	pool->run();
 	return pool;
 }
+
+
 
 template <typename T>
 void threadpool<T> ::run()
@@ -127,8 +132,8 @@ void threadpool<T> ::run()
         //释放这次请求的数据
         delete request;
 	}
-
     delete sr;
 }
+
 
 #endif

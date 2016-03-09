@@ -45,7 +45,8 @@ public:
 	virtual ~CHttpResponseMaker(){}
 public:
 	static int		make(const char* szContent, int nContentLen,int totalContentLen ,char* szBuffer, int nBufferSize, const char* content_type);
-	static void		make_string(const string& strContent, string& strResp, string& content_type, string& add_head);
+    static int		make_headers(int totalContentLen ,char* szBuffer,const char* content_type);
+    static void		make_string(const string& strContent, string& strResp, string& content_type, string& add_head);
 	static void		make_404_error(string& strResp);
     static void		make_400_error(string& strResp);
 	static void		make_302_error(const string& strLocation, const string& strMoveTo, string& strResp);

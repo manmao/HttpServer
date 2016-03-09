@@ -21,7 +21,7 @@
 
    int  HttpResponse::add_header(string head_name,string head_value)
    {
-       this->add_head += head_name+":"+head_value+"\r\n";
+       this->add_head += head_name+": "+head_value+"\r\n";
        return 0;
    }
 

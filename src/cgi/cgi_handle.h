@@ -29,10 +29,11 @@ public:
     int process(ServletRegister *sr);
 private:
     void req_dispathch(ServletRegister *sr);
-    void req_html(const char *path);
+    void req_static_file(const char *path,const char* content_type);
     void req_servlet(ServletRegister *sr,string uri);
 private:
    static void removefd(int epollfd,int fd);
+   bool isFile(const string object,string &content_type);
 private:
     int m_epollfd;
     int m_sockfd;
