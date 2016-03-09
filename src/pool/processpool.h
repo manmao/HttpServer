@@ -92,7 +92,6 @@ private:
 	static processpool<T> *m_instance;
 };
 
-
 template <typename T>
 processpool<T> *processpool<T>::m_instance=NULL;
 
@@ -127,8 +126,6 @@ static void sig_handler(int sig)
 	send(sig_pipefd[1],(char *)&msg,1,0); //发送到写端
 	errno=save_errno;
 }
-
-
 
 /***********************************
 ************************************/
@@ -187,7 +184,7 @@ template<typename T>
 void processpool<T>::setup_sig_pipe()
 {
 	/** 创建epoll *事件和监听表和信号管道*/
-	m_epollfd=epoll_create(5);
+	m_epollfd=epoll_create(MAX_EVENT_NUMBER+2);
 	assert(m_epollfd!=-1);
 
     int ret=socketpair(PF_UNIX,SOCK_STREAM,0,sig_pipefd);
@@ -237,6 +234,7 @@ void processpool<T>::run_child(Config *config)
 	assert(user);
 	int number=0;
 	int ret=-1;
+
 	while(!m_stop)
 	{
 		number=epoll_wait(m_epollfd,events,MAX_EVENT_NUMBER,-1);
@@ -258,20 +256,28 @@ void processpool<T>::run_child(Config *config)
 				}
 				else
 				{
-					struct sockaddr_in client_address;
-					socklen_t client_addrlength=sizeof(client_address);
-					int connfd=accept(m_listenfd,(struct sockaddr *)
-						&client_address,&client_addrlength);
-					if(connfd < 0)
-					{
-						printf("errno is:%d\n",errno);
-						continue;
-					}
-					addfd(m_epollfd,connfd);
-					/**模版类T必须实现init方法，以初始化一个客户端连接。
-					我们直接使用connfd来索引逻辑处理对象，提高程序效率**/
-					user[connfd].init(m_epollfd,connfd,client_address,tp,config);
+				    while(1)
+                    {
+                        struct sockaddr_in client_address;
+					    socklen_t client_addrlength=sizeof(client_address);
+					    int connfd=accept(m_listenfd,(struct sockaddr *)
+						        &client_address,&client_addrlength);
+
+					    if(connfd <= 0) //
+					    {
+						    printf("errno is:%d\n",errno);
+                            break;
+					    }
+
+					    addfd(m_epollfd,connfd);
+                        printf(" %s,%d   connfd:%d\n",__FILE__,__LINE__,connfd);
+					    /**模版类T必须实现init方法，以初始化一个客户端连接。
+					    我们直接使用connfd来索引逻辑处理对象，提高程序效率**/
+					    user[connfd].init(m_epollfd,connfd,client_address,tp,config);
+                    }
+                    continue;
 				}
+                printf("request comming !!!!!\n");
 			}
 			else if((sockfd == sig_pipefd[0]) && (events[i].events&EPOLLIN))
 			{
@@ -333,7 +339,6 @@ void processpool<T>::run_child(Config *config)
 	close(m_epollfd);
 }
 
-
 template<typename T>
 void processpool<T>::run_parent()
 {
@@ -345,10 +350,9 @@ void processpool<T>::run_parent()
 	int new_conn=1;
 	int number=0;
 	int ret=-1;
-
+     int count=0;
 	while(!m_stop)
 	{
-
 		number=epoll_wait(m_epollfd,events,MAX_EVENT_NUMBER,-1);
 
         if((number<0) && (errno != EINTR))
@@ -379,6 +383,8 @@ void processpool<T>::run_parent()
 				sub_process_counter=(i+1)%m_process_number;
 				send(m_sub_process[i].m_pipefd[0],(char *)&new_conn,sizeof(new_conn),0);
 				printf("send request to child %d\n",i);
+                  count++;
+                        printf("连接数量:%d\n",count);
 			}
 			/*** 处理父进程接收到的信号 ***/
 			else if((sockfd == sig_pipefd[0]) && (events[i].events & EPOLLIN))

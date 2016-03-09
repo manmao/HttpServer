@@ -27,7 +27,10 @@ public:
     cgi_handle(int epollfd,int sockfd,struct sockaddr_in address,Config *conf);
     ~cgi_handle();
     int process(ServletRegister *sr);
+private:
     void req_dispathch(ServletRegister *sr);
+    void req_html(const char *path);
+    void req_servlet(ServletRegister *sr,string uri);
 private:
    static void removefd(int epollfd,int fd);
 private:
