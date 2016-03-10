@@ -36,7 +36,8 @@ int CHttpResponseMaker::make(const char* szContent, int nContentLen,int totalCon
     return strlen(szBuffer);
 }
 
-int CHttpResponseMaker::make_headers(int totalContentLen ,char* szBuffer,const char* content_type)
+int CHttpResponseMaker::make_headers(int totalContentLen ,
+                    char* szBuffer,const char* content_type)
 {
    sprintf(szBuffer, "HTTP/1.1 200 OK\r\nContent-Length: %d\r\nContent-Type: %s;charset=UTF-8\r\nConnection: Keep-Alive\r\n\r\n",
         totalContentLen, content_type);

@@ -34,7 +34,8 @@ static void setnonblock(int fd)
 
 
 void  set_socket(int sfd){
-	int optval; 	   //整形的选项值
+
+    int optval; 	   //整形的选项值
 	socklen_t optlen;  //整形的选项值的长度
 	int err;		   //设置返回结果
 
@@ -53,7 +54,8 @@ void  set_socket(int sfd){
     while (setsockopt(sfd, SOL_SOCKET, SO_SNDBUF, (void*)&iSockBuf, sizeof(iSockBuf)) < 0)
     {
         iSockBuf -= 1024;
-        if (iSockBuf <= 1024) break;
+        if (iSockBuf <= 1024)
+            break;
     }
 
     ///设置接收缓冲区大小
@@ -71,7 +73,6 @@ void  set_socket(int sfd){
     {
         return ;
     }
-
     setnonblock(sfd);
  }
 

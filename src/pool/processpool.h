@@ -113,7 +113,7 @@ static void addfd(int epollfd,int fd)
 	event.data.fd=fd;
 	event.events=EPOLLIN|EPOLLET;
 	epoll_ctl(epollfd,EPOLL_CTL_ADD,fd,&event);
-	setnonblocking(fd);
+    setnonblocking(fd);//如果设置为非阻塞，那么数据还没有发送出去，send()将会返回
 }
 
 

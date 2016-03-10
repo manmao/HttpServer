@@ -48,19 +48,24 @@ public:
         this->logPath=log_path;
         this->rootDir=root_dir;
     }
+
     void init_type_map()
     {
         type_map["html"]="text/html";
         type_map["jpeg"]="image/jpeg";
         type_map["jpg"]="image/jpeg";
-        type_map["doc"]="application/x-download";
-        type_map["pdf"]="application/x-download";
+        type_map["pdf"]="application/octet-stream";
         type_map["png"]="image/png";
         type_map["bmp"]="image/bmp";
-        type_map["other"]="application/x-download";
+        type_map["mp3"]="audio/mp3";
+        type_map["mp4"]="video/mpeg4";
+        type_map["doc"]="application/octet-stream";
+        type_map["other"]="application/octet-stream";
     }
+
     ~Config()
     {
+
     }
 public:
     string logPath;

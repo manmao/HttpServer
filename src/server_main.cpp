@@ -32,6 +32,7 @@ int main(int argc,char *argv[])
         pool->run(config);  //exe same time
         delete pool;
     }
+
     /*正如前文提到的，main函数创建了文件描述符 listenfd,那么就由它亲自关闭之*/
     close(listenfd);
 

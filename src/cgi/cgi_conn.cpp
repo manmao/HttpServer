@@ -24,6 +24,7 @@ void cgi_conn::init(int epollfd,
     this->config=config;
 }
 
+
 void cgi_conn::process()
 {
     //每次有数据到来就创建一个处理线程来读取数据执行

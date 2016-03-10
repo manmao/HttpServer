@@ -2,6 +2,18 @@
 #include <stdio.h>
 #include "cgi_handle.h"
 #include "http/http_respond.h"
+#include <sys/sendfile.h>
+
+
+
+
+static
+void setblock(int fd){
+    int flags;
+    flags = fcntl(fd,F_GETFL,0);
+    flags &= ~O_NONBLOCK;
+    fcntl(fd,F_SETFL,flags);
+}
 
 cgi_handle::cgi_handle(int epollfd,int sockfd,struct sockaddr_in address,Config *conf)
 {
@@ -38,10 +50,10 @@ int cgi_handle::process(ServletRegister *sr)
                //数据读取完成
                break;
            }else{
+                //错误数据
                 string res;
                 CHttpResponseMaker::make_400_error(res);
                 send(this->m_sockfd,res.c_str(),res.length()+1,0);
-                //错误数据
                 cgi_handle::removefd(this->m_epollfd,this->m_sockfd);
            }
            return -1;
@@ -105,6 +117,7 @@ void cgi_handle::req_dispathch(ServletRegister *sr)
         content_type="text/html";
         goto DEAL;
     }
+
     if(isFile(object,content_type))
     {
         goto DEAL;
@@ -124,10 +137,9 @@ DEAL: //处理请求静态文件
         return ;
     }
     this->req_static_file(file_path,content_type.c_str());
+
     return ;
 }
-
-
 
 //处理静态文件请求
 void cgi_handle::req_static_file(const char *path,const char* content_type)
@@ -135,29 +147,44 @@ void cgi_handle::req_static_file(const char *path,const char* content_type)
     printf("%s\n",path);
     int fd=open(path,O_RDONLY);
     assert(fd);
-    unsigned long length = lseek(fd, 0, SEEK_END);
+    unsigned long long length = lseek(fd, 0, SEEK_END);
     lseek(fd,0,SEEK_SET);
-    printf("%ld\n",length); //文件长度
+    printf("%lld\n",length); //文件长度
 
-    //发送头部
-    char http_buff[1024];
-    int head_size=CHttpResponseMaker::make_headers(length,http_buff,content_type);
-    send(this->m_sockfd,http_buff,head_size,0);
+      //发送头部
+      char http_buff[1024]={0};
+      int head_size=CHttpResponseMaker::make_headers(length,http_buff,content_type);
+      send(this->m_sockfd,http_buff,head_size,0);
 
-    //发送数据
-    int tmp=0;
-    long count=0;
-    unsigned char content_buf[1024*50];
-    while((tmp=read(fd,content_buf,(sizeof(content_buf)/sizeof(content_buf[0])))))
-    {
-        if(tmp<=0)
-            break;
-        send(this->m_sockfd,content_buf,tmp,0);
-        count +=tmp;
-    }
-    printf("read complete!!! %ld\n",count);
-    close(fd);
+      //sendfile实现断点下载
+      long chuck=1024*200;
+      long i=0;
+      long total=length;
+      long offset=0;
+      if(total>chuck)
+      {
+        setblock(this->m_sockfd);//如果大文件，则网络文件描述符阻塞传输
+      }
+      while(1){
+          if(total<chuck)
+          {
+             sendfile(this->m_sockfd,fd,&(offset),total);
+             break;
+          }
+          else{
+             sendfile(this->m_sockfd,fd,&(offset),chuck);
+          }
+          i++;
+          total -= chuck;
+          offset=i*chuck;
+      }
+     close(fd);
+
+     printf("read complete!!!\n");
+
 }
+
+
 
 //处理Servlet请求
 void cgi_handle::req_servlet(ServletRegister *sr,string uri){
