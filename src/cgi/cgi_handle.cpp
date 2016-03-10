@@ -35,14 +35,15 @@ int cgi_handle::process(ServletRegister *sr)
        if(buflen < 0)
        {
            if(errno== EAGAIN || errno == EINTR){ //即当buflen<0且errno=EAGAIN时，表示没有数据了。(读/写都是这样)
-                //数据读取完成
+               //数据读取完成
+               break;
            }else{
+                string res;
+                CHttpResponseMaker::make_400_error(res);
+                send(this->m_sockfd,res.c_str(),res.length()+1,0);
                 //错误数据
+                cgi_handle::removefd(this->m_epollfd,this->m_sockfd);
            }
-           string res;
-           CHttpResponseMaker::make_400_error(res);
-           send(this->m_sockfd,res.c_str(),res.length()+1,0);
-           cgi_handle::removefd(this->m_epollfd,this->m_sockfd);
            return -1;
        }
        else if(buflen==0)  //客户端断开连接
@@ -111,7 +112,8 @@ void cgi_handle::req_dispathch(ServletRegister *sr)
     }else{ //如果是接口
         this->req_servlet(sr,uri);
     }
-DEAL:
+
+DEAL: //处理请求静态文件
     const char *file_path=(this->config->rootDir+uri).c_str();
     int ret=access(file_path,F_OK);
     if(ret)
