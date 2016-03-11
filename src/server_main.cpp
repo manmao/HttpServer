@@ -20,7 +20,6 @@ int main(int argc,char *argv[])
     }else if(argc == 1){
         config=new Config();
     }
-
     //初始化端口连接
     int listenfd=inetListen(config->listenPort.c_str(),65533, NULL);
     assert(listenfd > 0);

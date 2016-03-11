@@ -11,7 +11,7 @@ using std::string;
 class HttpResponse{
 public:
     HttpResponse(int sockfd,string content_type="text/html");
-    virtual int send_rsp(string content);
+    virtual int send(string content);
     virtual int add_header(string head_name,string head_value);
     virtual void set_content_type(string type);
     virtual ~HttpResponse();

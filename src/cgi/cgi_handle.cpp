@@ -46,7 +46,7 @@ int cgi_handle::process(ServletRegister *sr)
        int buflen=recv(this->m_sockfd,http_content_buff,5120,0);
        if(buflen < 0)
        {
-           if(errno== EAGAIN || errno == EINTR){ //即当buflen<0且errno=EAGAIN时，表示没有数据了。(读/写都是这样)
+           if(errno== EAGAIN || errno == EINTR || errno == EWOULDBLOCK){ //即当buflen<0且errno=EAGAIN时，表示没有数据了。(读/写都是这样)
                //数据读取完成
                break;
            }else{
