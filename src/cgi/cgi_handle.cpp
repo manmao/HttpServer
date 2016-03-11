@@ -5,8 +5,6 @@
 #include <sys/sendfile.h>
 
 
-
-
 static
 void setblock(int fd){
     int flags;
@@ -141,6 +139,7 @@ DEAL: //处理请求静态文件
     return ;
 }
 
+
 //处理静态文件请求
 void cgi_handle::req_static_file(const char *path,const char* content_type)
 {
@@ -151,12 +150,12 @@ void cgi_handle::req_static_file(const char *path,const char* content_type)
     lseek(fd,0,SEEK_SET);
     printf("%lld\n",length); //文件长度
 
-      //发送头部
-      char http_buff[1024]={0};
-      int head_size=CHttpResponseMaker::make_headers(length,http_buff,content_type);
-      send(this->m_sockfd,http_buff,head_size,0);
+    //发送头部
+    char http_buff[1024]={0};
+    int head_size=CHttpResponseMaker::make_headers(length,http_buff,content_type);
+    send(this->m_sockfd,http_buff,head_size,0);
 
-      //sendfile实现断点下载
+      //sendfile发送数据
       long chuck=1024*200;
       long i=0;
       long total=length;
@@ -178,6 +177,7 @@ void cgi_handle::req_static_file(const char *path,const char* content_type)
           total -= chuck;
           offset=i*chuck;
       }
+
      close(fd);
 
      printf("read complete!!!\n");

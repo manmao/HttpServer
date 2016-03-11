@@ -1,0 +1,2 @@
+---- errno is Matches (1 in 1 files) ----
+zlib.h (inc):   can be checked to distinguish the two cases (if errno is zero, the

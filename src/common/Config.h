@@ -54,12 +54,17 @@ public:
         type_map["html"]="text/html";
         type_map["jpeg"]="image/jpeg";
         type_map["jpg"]="image/jpeg";
-        type_map["pdf"]="application/octet-stream";
         type_map["png"]="image/png";
         type_map["bmp"]="image/bmp";
+        type_map["gif"]="image/gif";
+        type_map["pdf"]="application/octet-stream";
+        type_map["json"]="application/json";
         type_map["mp3"]="audio/mp3";
         type_map["mp4"]="video/mpeg4";
+        type_map["zip"]="application/zip";
         type_map["doc"]="application/octet-stream";
+        type_map["css"]="text/css";
+        type_map["js"]="application/javascript";
         type_map["other"]="application/octet-stream";
     }
 
