@@ -13,6 +13,16 @@ void setblock(int fd){
     fcntl(fd,F_SETFL,flags);
 }
 
+static
+int setnonblocking(int fd)
+{
+    int old_option=fcntl(fd,F_GETFL);
+    int new_option=old_option | O_NONBLOCK;
+    fcntl(fd,F_SETFL,new_option);
+    return old_option;
+}
+
+
 cgi_handle::cgi_handle(int epollfd,int sockfd,struct sockaddr_in address,Config *conf)
 {
     this->m_epollfd=epollfd;
@@ -168,6 +178,7 @@ void cgi_handle::req_static_file(const char *path,const char* content_type)
           if(total<chuck)
           {
              sendfile(this->m_sockfd,fd,&(offset),total);
+             setnonblocking(this->m_sockfd);
              break;
           }
           else{
