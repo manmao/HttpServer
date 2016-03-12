@@ -15,14 +15,12 @@ public:
         printf("post method %s\n",req->get_uri().c_str());
         rsp->send("123231");
     }
-
     void get(HttpRequest*req,HttpResponse *rsp){
         printf("get method %s\n",req->get_param("man").c_str());
         printf("get method %s\n",req->get_uri().c_str());
         rsp->add_header("Cache-Control","no-cache");
         rsp->send(req->get_param("man"));
     }
-
 };
 
 #endif

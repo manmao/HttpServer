@@ -11,6 +11,7 @@
 
    }
 
+    //·¢ËÍÊı¾İ
    int  HttpResponse::send(string content){
        string res;
        CHttpResponseMaker::make_string(content,res,this->content_type,this->add_head);
