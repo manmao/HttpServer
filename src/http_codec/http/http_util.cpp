@@ -20,15 +20,9 @@
 
 int CHttpResponseMaker::make(const char* szContent, int nContentLen,int totalContentLen,char* szBuffer, int nBufferSize, const char* content_type)
 {
-<<<<<<< HEAD
     int nRealContentLen = 0;
     if(nContentLen > 0)
         nRealContentLen = totalContentLen;
-=======
-	int nRealContentLen = 0;
-	if(nContentLen > 0)
-		nRealContentLen = totalContentLen;
->>>>>>> 60ea385fa026eea106ae80abbcd836f0c6830038
 
     sprintf(szBuffer, "HTTP/1.1 200 OK\r\nContent-Length: %d\r\nContent-Type: %s;charset=UTF-8\r\nConnection: Keep-Alive\r\n\r\n",
         nRealContentLen, content_type);

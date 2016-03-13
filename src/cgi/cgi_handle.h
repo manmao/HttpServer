@@ -29,11 +29,7 @@ public:
     int process(ServletRegister *sr);
 private:
     void req_dispathch(ServletRegister *sr);
-<<<<<<< HEAD
     void req_static_file(const char *path,const char* content_type);
-=======
-    void req_html(const char *path);
->>>>>>> 60ea385fa026eea106ae80abbcd836f0c6830038
     void req_servlet(ServletRegister *sr,string uri);
 private:
    static void removefd(int epollfd,int fd);

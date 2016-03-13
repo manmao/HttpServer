@@ -25,10 +25,7 @@ public:
     virtual ~Servlet();
     void create(HttpRequest*parser,HttpResponse *rsp);//放入构造数据，解析req
 public:
-<<<<<<< HEAD
     //post method
-=======
->>>>>>> 60ea385fa026eea106ae80abbcd836f0c6830038
     virtual void post(HttpRequest*req,HttpResponse *rsp)=0;
     //get method
     virtual void get(HttpRequest *req,HttpResponse *rsp)=0;

@@ -12,7 +12,7 @@
    }
 
     //·¢ËÍÊý¾Ý
-   int  HttpResponse::send(string content){
+   int  HttpResponse::send_msg(string content){
        string res;
        CHttpResponseMaker::make_string(content,res,this->content_type,this->add_head);
        send(this->m_sockfd,res.c_str(),res.length(),0);
