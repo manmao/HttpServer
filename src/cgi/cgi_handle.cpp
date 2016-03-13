@@ -132,6 +132,7 @@ void cgi_handle::req_dispathch(ServletRegister *sr)
 
     }else{ //如果是接口
         this->req_servlet(sr,uri);
+        return ;
     }
 
 DEAL: //处理请求静态文件
