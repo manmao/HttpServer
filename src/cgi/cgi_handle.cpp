@@ -220,7 +220,3 @@ void cgi_handle::req_servlet(ServletRegister *sr,string uri){
    context->st->create(this->req,this->rsp);
 }
 
-
-
-
-
