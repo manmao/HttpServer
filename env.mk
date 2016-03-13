@@ -28,6 +28,7 @@ TARGET_DIRS :=src/  \
 				src/servlet \
 				src/http_codec \
 				src/http_codec/api src/http_codec/http  src/http_codec/json \
+				src/shm
 
 
 #.h 头文件目录

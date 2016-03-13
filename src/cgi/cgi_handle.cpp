@@ -145,6 +145,7 @@ DEAL: //处理请求静态文件
         send(this->m_sockfd,res.c_str(),res.length()+1,0);
         return ;
     }
+
     this->req_static_file(file_path,content_type.c_str());
 
     return ;
@@ -166,16 +167,16 @@ void cgi_handle::req_static_file(const char *path,const char* content_type)
     int head_size=CHttpResponseMaker::make_headers(length,http_buff,content_type);
     send(this->m_sockfd,http_buff,head_size,0);
 
-      //sendfile发送数据
-      long chuck=1024*200;
-      long i=0;
-      long total=length;
-      long offset=0;
-      if(total>chuck)
-      {
-        setblock(this->m_sockfd);//如果大文件，则网络文件描述符阻塞传输
-      }
-      while(1){
+     //sendfile发送数据
+     long chuck=1024*200;
+     long i=0;
+     long total=length;
+     long offset=0;
+     if(total>chuck)
+     {
+       setblock(this->m_sockfd);//如果大文件，则网络文件描述符阻塞传输
+     }
+     while(1){
           if(total<chuck)
           {
              sendfile(this->m_sockfd,fd,&(offset),total);
@@ -188,7 +189,7 @@ void cgi_handle::req_static_file(const char *path,const char* content_type)
           i++;
           total -= chuck;
           offset=i*chuck;
-      }
+     }
 
      close(fd);
 
