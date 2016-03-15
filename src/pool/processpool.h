@@ -17,6 +17,9 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <stdbool.h>
+#include <sched.h>
+
+
 
 #include "threadpool.h"
 #include "Config.h"
@@ -143,6 +146,38 @@ static void addsig(int sig,void (handler)(int ),bool restart=true)
 }
 
 
+
+
+// 获取服务器CPU 个数
+static
+unsigned core_count()
+{
+  unsigned count = 1; // 至少一个
+  count = sysconf(_SC_NPROCESSORS_CONF);
+  return count;
+}
+
+
+/**
+*
+*进程绑定到执行CPU
+*
+*
+**/
+static int
+setaffinity_by_name(int32_t cpuid)
+{
+    cpu_set_t mask;
+    CPU_ZERO(&mask);
+    CPU_SET(cpuid,&mask);
+    sched_setaffinity(0, sizeof(cpu_set_t), &mask); //绑定CPU
+    return 1;
+}
+
+
+
+
+
 /**进程池构造函数。参数listenfd是监听socket,
 他必须在创建进程池之前被创建。否则子进程无法直接引用它**/
 template<typename T>
@@ -154,6 +189,9 @@ processpool<T>::processpool(int listenfd,int process_number):m_listenfd(listenfd
 	assert((process_number>0)&&(process_number<=MAX_PROCESS_NUMBER));
 	m_sub_process=new process[process_number];
 	assert(m_sub_process);
+
+    int cpu_num=core_count();
+    printf("cpu num:%d\n",cpu_num);
 
 	/*****创建process_number个子进程，并建立它们和父进程之间的管道*****/
 	for(int i=0;i<process_number;i++)
@@ -171,6 +209,7 @@ processpool<T>::processpool(int listenfd,int process_number):m_listenfd(listenfd
 		}
 		else							 //子进程
 		{
+		    setaffinity_by_name((i+1)%cpu_num+1);//进程绑定到指定CPU
 			close(m_sub_process[i].m_pipefd[0]);//关闭子进程一端
 			m_idx=i;
 			break;

@@ -43,6 +43,7 @@ void write_mem(struct data_type data)
 		exit(-1);
 	}
 
+//delete IPC object
 	if(reserveSem(semid,WRITE_SEM) == -1) //-1
 	{
 		puts("reserveSem");
@@ -125,6 +126,7 @@ struct data_type read_mem()
 		exit(-1);
 	}
 
+// give write one more turn
 	if(releaseSem(semid,WRITE_SEM) == -1) //+1
 	{
 		puts("reserveSem\n");
