@@ -33,7 +33,7 @@ static void setnonblock(int fd)
 }
 
 
-void  set_socket(int sfd){
+int set_socket(int sfd){
 
     int optval; 	   //整形的选项值
 	socklen_t optlen;  //整形的选项值的长度
@@ -51,7 +51,7 @@ void  set_socket(int sfd){
 
     ///设置发送缓冲区大小
     int iSockBuf = 1024 * 1024;
-    while (setsockopt(sfd, SOL_SOCKET, SO_SNDBUF, (void*)&iSockBuf, sizeof(iSockBuf)) < 0)
+    while ((err=setsockopt(sfd, SOL_SOCKET, SO_SNDBUF, (void*)&iSockBuf, sizeof(iSockBuf))) < 0)
     {
         iSockBuf -= 1024;
         if (iSockBuf <= 1024)
@@ -60,20 +60,23 @@ void  set_socket(int sfd){
 
     ///设置接收缓冲区大小
     iSockBuf = 1024 * 1024;
-    while(setsockopt(sfd, SOL_SOCKET, SO_RCVBUF, (void *)&iSockBuf, sizeof(iSockBuf)) < 0)
+    while((err=setsockopt(sfd, SOL_SOCKET, SO_RCVBUF, (void *)&iSockBuf, sizeof(iSockBuf))) < 0)
     {
         iSockBuf -= 1024;
         if (iSockBuf <= 1024) break;
     }
+
     //设置linger,关闭close后的延迟，不进入TIME_WAIT状态
     //struct linger{#1:开关 0关1开,#2:时间值，毫秒}
     //strcut linger设置socket close后是否进入WAIT状态
     struct linger ling= {0, 0};
-    if (setsockopt(sfd, SOL_SOCKET, SO_LINGER, (void *)&ling, sizeof(ling))!= 0)
+    if ((err=setsockopt(sfd, SOL_SOCKET, SO_LINGER, (void *)&ling, sizeof(ling)))!= 0)
     {
-        return ;
+        return err;
     }
     setnonblock(sfd);
+
+    return err;
  }
 
 

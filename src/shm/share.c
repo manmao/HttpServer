@@ -1,6 +1,6 @@
 #include "share.h"
 
-void write_mem(struct data_type *data)
+void write_mem(struct data_type data)
 {
 	int semid,shmid;
 	struct shmseg *shmp;
@@ -33,7 +33,8 @@ void write_mem(struct data_type *data)
 		exit(-1);
 
         //写入数据
-        shmp->data=data;
+       // memcpy(shmp->data,data,sizeof(struct data_type));
+       shmp->data=data;
 
 	//
 	if(releaseSem(semid,READ_SEM) == -1)//+1
@@ -65,12 +66,13 @@ void write_mem(struct data_type *data)
 	}
 }
 
-struct data_type* read_mem()
+struct data_type read_mem()
 {
 
     int semid,shmid;
 	struct shmseg *shmp;
-    struct data_type* data=(struct data_type*)malloc(sizeof(struct data_type));
+    struct data_type data;
+    //struct data_type data=(struct data_type*)malloc(sizeof(struct data_type));
 
     ///获取信号量
 	semid = semget(SEM_KEY,0,0);
@@ -105,7 +107,8 @@ struct data_type* read_mem()
 	}
 
     //读取数据
-    memcpy(data,shmp->data,sizeof(struct data_type));
+    //memcpy(data,shmp->data,sizeof(struct data_type));
+      data=shmp->data;
 
 
     ///释放内存区域
@@ -122,7 +125,7 @@ struct data_type* read_mem()
 		exit(-1);
 	}
 
-	if(releaseSem(semid,WRITE_SEM) == -1) //-1
+	if(releaseSem(semid,WRITE_SEM) == -1) //+1
 	{
 		puts("reserveSem\n");
 		exit(-1);

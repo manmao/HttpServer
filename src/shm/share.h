@@ -15,7 +15,7 @@ struct data_type{
 };
 
 struct shmseg{
-    struct data_type *data;
+    struct data_type data;
 };
 
 
@@ -23,8 +23,8 @@ struct shmseg{
     extern "C"{
 #endif
 
-extern void write_mem(struct data_type *data);
-extern struct data_type* read_mem();
+extern void write_mem(struct data_type data);
+extern struct data_type read_mem();
 
 
 #ifdef __cplusplus

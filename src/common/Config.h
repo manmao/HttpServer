@@ -12,7 +12,6 @@
 
 using std::string;
 using std::map;
-
 #include "rdconfig.h"
 #include "error_hdr.h"
 
@@ -22,13 +21,13 @@ class Config
 public:
     Config(string conf="conf/http.conf")
     {
+
        this->config_path=conf;
        int ret=access(const_cast<char *>(conf.c_str()),F_OK); //mode
        if(ret)
        {
             errExit("config file is not exit! %s,%s,%d\n",__FILE__,__func__,__LINE__);
        }
-       this->init_config();
        this->init_type_map();
     }
 
@@ -47,6 +46,11 @@ public:
         this->listenPort=port;
         this->logPath=log_path;
         this->rootDir=root_dir;
+
+        get_config_int(config_file,const_cast<char *>("system"), const_cast<char *>("procs"),&this->procs);
+        get_config_int(config_file,const_cast<char *>("system"), const_cast<char *>("threads"),&this->threads);
+        get_config_int(config_file,const_cast<char *>("system"), const_cast<char *>("max_requests"),&this->max_requests);
+        get_config_int(config_file,const_cast<char *>("system"), const_cast<char *>("backlog"),&this->backlog);
     }
 
     void init_type_map()
@@ -79,6 +83,10 @@ public:
     string config_path;
     map<string,string> type_map;
 
+    int procs;
+    int threads;
+    int max_requests;
+    int backlog;
 
 };
 

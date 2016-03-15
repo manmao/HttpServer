@@ -222,8 +222,9 @@ void processpool<T>::run_child(Config *config)
 {
 	setup_sig_pipe();
 
+    printf("%d, %d, %d, %d\n",config->procs,config->backlog,config->threads,config->max_requests);
     //设置线程池
-    threadpool<cgi_handle> *tp=new threadpool<cgi_handle>();
+    threadpool<cgi_handle> *tp=new threadpool<cgi_handle>(config->threads,config->max_requests);
     assert(tp);
 
 	/*每个子进程都通过其在进程池中序号值m_idx找到与父进程通信的管道*/

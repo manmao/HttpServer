@@ -16,16 +16,20 @@ int main(int argc,char *argv[])
     //初始化配置
     Config *config=NULL;
     if(argc == 2){
-       config=new Config(argv[1]);
+      config=new Config(argv[1]);
     }else if(argc == 1){
-        config=new Config();
+      config=new Config();
     }
+
+    config->init_config();
+
     //初始化端口连接
-    int listenfd=inetListen(config->listenPort.c_str(),65533, NULL);
+    int listenfd=inetListen(config->listenPort.c_str(),config->backlog, NULL);
     assert(listenfd > 0);
+
     set_socket(listenfd);
 
-    processpool<cgi_conn> *pool = processpool<cgi_conn>::create(listenfd);
+    processpool<cgi_conn> *pool = processpool<cgi_conn>::create(listenfd,config->procs);
     if(pool)
     {
         pool->run(config);  //exe same time
