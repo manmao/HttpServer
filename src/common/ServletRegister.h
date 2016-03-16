@@ -22,7 +22,7 @@ public:
     {
           Context *context=new Context();
           context->st=servlet;
-          struct data_type *content=new data_type;
+          struct node_data_type *content=new node_data_type;
           content->context=context;
           content->url=url;
           rbtree_insert(&this->url_map,content);

@@ -85,6 +85,7 @@ int cgi_handle::process(ServletRegister *sr)
        }
        memset(http_content_buff,'0',5120);
    }
+   return 0;
 }
 
 
@@ -204,7 +205,7 @@ void cgi_handle::req_servlet(ServletRegister *sr,string uri){
 
     struct rb_root mp=sr->get_url_map();
     //查找url对应的上下文
-    struct data_type type;
+    struct node_data_type type;
     type.url=uri;
     struct node_type *node=rbtree_search(&mp,&type);
 

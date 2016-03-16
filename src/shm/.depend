@@ -4,3 +4,4 @@
  svshm_xfr.h binary_sems.h /mnt/hgfs/share/HttpServer/inc/error_hdr.h \
  /mnt/hgfs/share/HttpServer/inc/error/get_num.h \
  /mnt/hgfs/share/HttpServer/inc/error/error_functions.h
+/mnt/hgfs/share/HttpServer/obj/demo.o: demo.c

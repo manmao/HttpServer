@@ -9,7 +9,7 @@ struct rb_root rbtree_init()
 }
 
 //Êý¾Ý·ÖÅä
-struct node_type *rbtree_search(struct rb_root *root, struct data_type *data_content)
+struct node_type *rbtree_search(struct rb_root *root, struct node_data_type *data_content)
 {
     struct rb_node *node = root->rb_node;
     while (node) {
@@ -28,7 +28,7 @@ struct node_type *rbtree_search(struct rb_root *root, struct data_type *data_con
     return NULL;
 }
 
-int rbtree_insert(struct rb_root *root, struct data_type *data_content)
+int rbtree_insert(struct rb_root *root, struct node_data_type *data_content)
 {
     struct node_type *data=(struct node_type *)calloc(1,sizeof(struct node_type));
     data->data_content=data_content;
@@ -58,7 +58,7 @@ int rbtree_insert(struct rb_root *root, struct data_type *data_content)
 }
 
 /*
-void rbtree_delete(struct rb_root *root, struct data_type *data_content)
+void rbtree_delete(struct rb_root *root, struct node_data_type *data_content)
 {
     struct node_type *data = rbtree_search(root, data_content);
 

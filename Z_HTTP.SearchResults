@@ -1,2 +1,3 @@
----- errno is Matches (1 in 1 files) ----
-zlib.h (inc):   can be checked to distinguish the two cases (if errno is zero, the
+---- data_type Search Errors Encountered (1) ----
+The following 1 files could not be processed:
+F:\share\HttpServer\src\common\setsocket.h : File could not be opened.

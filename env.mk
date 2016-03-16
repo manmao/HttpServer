@@ -38,6 +38,7 @@ INCLUDE_DIR :=  \
 	-I$(MAKEROOT)/src/pool \
 	-I$(MAKEROOT)/src/socket \
 	-I$(MAKEROOT)/src/cgi \
+	-I$(MAKEROOT)/src/shm \
 	-I$(MAKEROOT)/src/servlet \
 	-I$(MAKEROOT)/src/http_codec \
 	-I$(MAKEROOT)/src/http_codec\api \

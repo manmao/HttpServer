@@ -95,7 +95,7 @@ typedef struct z_stream_s {
     free_func  zfree;   /* used to free the internal state */
     voidpf     opaque;  /* private data object passed to zalloc and zfree */
 
-    int     data_type;  /* best guess about the data type: binary or text */
+    int     node_data_type;  /* best guess about the data type: binary or text */
     uLong   adler;      /* adler32 value of the uncompressed data */
     uLong   reserved;   /* reserved for future use */
 } z_stream;
@@ -197,7 +197,7 @@ typedef gz_header FAR *gz_headerp;
 #define Z_TEXT     1
 #define Z_ASCII    Z_TEXT   /* for compatibility with 1.2.2 and earlier */
 #define Z_UNKNOWN  2
-/* Possible values of the data_type field (though see inflate()) */
+/* Possible values of the node_data_type field (though see inflate()) */
 
 #define Z_DEFLATED   8
 /* The deflate compression method (the only one supported in this version) */
@@ -309,7 +309,7 @@ ZEXTERN int ZEXPORT deflate OF((z_streamp strm, int flush));
     deflate() sets strm->adler to the adler32 checksum of all input read
   so far (that is, total_in bytes).
 
-    deflate() may update strm->data_type if it can make a good guess about
+    deflate() may update strm->node_data_type if it can make a good guess about
   the input data type (Z_BINARY or Z_TEXT). In doubt, the data is considered
   binary. This field is only for information purposes and does not affect
   the compression algorithm in any manner.
@@ -399,7 +399,7 @@ ZEXTERN int ZEXPORT inflate OF((z_streamp strm, int flush));
   the end of that block, or when it runs out of data.
 
     The Z_BLOCK option assists in appending to or combining deflate streams.
-  Also to assist in this, on return inflate() will set strm->data_type to the
+  Also to assist in this, on return inflate() will set strm->node_data_type to the
   number of unused bits in the last byte taken from strm->next_in, plus 64
   if inflate() is currently decoding the last block in the deflate stream,
   plus 128 if inflate() returned immediately after decoding an end-of-block
@@ -407,7 +407,7 @@ ZEXTERN int ZEXPORT inflate OF((z_streamp strm, int flush));
   deflate stream. The end-of-block will not be indicated until all of the
   uncompressed data from that block has been written to strm->next_out.  The
   number of unused bits may in general be greater than seven, except when
-  bit 7 of data_type is set, in which case the number of unused bits will be
+  bit 7 of node_data_type is set, in which case the number of unused bits will be
   less than eight.
 
     inflate() should normally be called until it returns Z_STREAM_END or an

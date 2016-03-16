@@ -24,7 +24,7 @@ using std::string;
 
 
 
-struct data_type{
+struct node_data_type{
     string url;
     Context *context;
 };
@@ -32,7 +32,7 @@ struct data_type{
 //新建自己的数据
 struct node_type {
     struct rb_node  my_node;
-    struct data_type *data_content;
+    struct node_data_type *data_content;
 };
 
 #ifdef __cplusplus
@@ -40,9 +40,9 @@ struct node_type {
 #endif
 
 struct rb_root rbtree_init();
-struct node_type *rbtree_search(struct rb_root *root, struct data_type *data_content);
-int rbtree_insert(struct rb_root *root, struct data_type *data_content);
-//void rbtree_delete(struct rb_root *root,struct data_type *data_content);
+struct node_type *rbtree_search(struct rb_root *root, struct node_data_type *data_content);
+int rbtree_insert(struct rb_root *root, struct node_data_type *data_content);
+//void rbtree_delete(struct rb_root *root,struct node_data_type *data_content);
 void print_rbtree(struct rb_root *tree);
 
 #ifdef __cplusplus
