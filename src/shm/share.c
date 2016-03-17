@@ -3,7 +3,7 @@
 void init_sem(struct share_context* context,enum MEM_OP_TYPE type,const char *file_path)
 {
 
-    int sem_key=ftok(file_path,0x111);
+    int sem_key=ftok(file_path,SEM_KEY);
 
     int semid;
 
@@ -17,9 +17,11 @@ void init_sem(struct share_context* context,enum MEM_OP_TYPE type,const char *fi
             else
 		        errExit("write semget %s:%d\n",__FILE__,__LINE__);
 	    }
-        //初始化信号量
+
+        //初始化信号量 WRITE_SEM为1
 	    if(initSemAvailable(semid,WRITE_SEM) == -1)
 		    exit(-1);
+        //初始化信号量 READ_SEM in
 	    if(initSemInUse(semid,READ_SEM) == -1)
 		    exit(-1);
 
@@ -32,13 +34,13 @@ void init_sem(struct share_context* context,enum MEM_OP_TYPE type,const char *fi
 		    exit(-1);
 	    }
     }
-
     context->semid=semid;
 }
 
+
 void init_shm(struct share_context* context,enum MEM_OP_TYPE type,const char *file_path)
 {
-       int shm_key=ftok(file_path,0x101);
+       int shm_key=ftok(file_path,SHM_KEY);
 
        int shmid;
        struct shmseg *shmp;
@@ -51,7 +53,6 @@ void init_shm(struct share_context* context,enum MEM_OP_TYPE type,const char *fi
               else
                  errExit("write shmget %s:%d",__FILE__,__LINE__);
           }
-
 
           shmp = shmat(shmid,NULL,0);
 	      if(shmp == (void *)-1)

@@ -8,12 +8,10 @@
 #include "binary_sems.h"
 
 
-#define SHM_KEY 0x12345
-#define SEM_KEY 0x56789
+#define SHM_KEY 0x101
+#define SEM_KEY 0x111
 
 #define OBJ_PERMS (S_IRUSR | S_IRGRP | S_IWGRP)
 
-#define WRITE_SEM 0
-#define READ_SEM  1
 
 #endif

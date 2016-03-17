@@ -15,7 +15,6 @@ using std::map;
 #include "rdconfig.h"
 #include "error_hdr.h"
 
-
 class Config
 {
 public:

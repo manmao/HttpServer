@@ -176,8 +176,6 @@ setaffinity_by_name(int32_t cpuid)
 
 
 
-
-
 /**进程池构造函数。参数listenfd是监听socket,
 他必须在创建进程池之前被创建。否则子进程无法直接引用它**/
 template<typename T>
@@ -209,7 +207,7 @@ processpool<T>::processpool(int listenfd,int process_number):m_listenfd(listenfd
 		}
 		else							 //子进程
 		{
-		    setaffinity_by_name((i+1)%cpu_num+1);//进程绑定到指定CPU
+		    setaffinity_by_name(i%cpu_num+1); //进程绑定到指定CPU
 			close(m_sub_process[i].m_pipefd[0]);//关闭子进程一端
 			m_idx=i;
 			break;
@@ -261,7 +259,7 @@ void processpool<T>::run_child(Config *config)
 {
 	setup_sig_pipe();
 
-    printf("%d, %d, %d, %d\n",config->procs,config->backlog,config->threads,config->max_requests);
+    //printf("%d, %d, %d, %d\n",config->procs,config->backlog,config->threads,config->max_requests);
     //设置线程池
     threadpool<cgi_handle> *tp=new threadpool<cgi_handle>(config->threads,config->max_requests);
     assert(tp);

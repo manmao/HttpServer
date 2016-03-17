@@ -14,6 +14,7 @@ public:
         printf("post method %s\n",req->get_uri().c_str());
         rsp->send_msg("servlet1");
     }
+
     void get(HttpRequest*req,HttpResponse *rsp){
         printf("get method %s\n",req->get_param("man").c_str());
         printf("get method %s\n",req->get_uri().c_str());

@@ -15,7 +15,6 @@ int main(int argc,char *argv[])
     if(pid<0)
         exit(-1);
     if(pid>0){
-
         struct share_context context;
         init_sem(&context,MEM_WRITE,"/home/linux/man.key");
         init_shm(&context,MEM_WRITE,"/home/linux/man.key");

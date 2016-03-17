@@ -8,10 +8,20 @@
 #include "svshm_xfr.h"
 #include "error_hdr.h"
 
+// WRITE_SEM代表写入进程的信号量在信号集中编号
+#define WRITE_SEM 0 //操作信号在信号集中的编号，第一个信号的编号是0，
+
+//READ_SEM 代表读取进程的信号量在信号集中的编号
+#define READ_SEM  1
+
+
 enum MEM_OP_TYPE{
     MEM_READ, //读内存
     MEM_WRITE //写内存
 };
+
+
+
 
 //共享数据单元
 struct shm_data_type{
@@ -29,6 +39,7 @@ struct share_context{
     int shmid;
     struct shmseg *shmp;
 };
+
 
 
 #ifdef __cplusplus
