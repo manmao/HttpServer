@@ -21,9 +21,21 @@
 
 class Context{
 public:
-    Context(){}
+    Context(){
+        this->st=NULL;
+    }
     ~Context(){}
-public:
+
+    Servlet *get_servlet()
+    {
+        return this->st;
+    }
+
+    void set_servlet( Servlet *servlet){
+        this->st=servlet;
+    }
+
+private:
     Servlet *st;
 };
 

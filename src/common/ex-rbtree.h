@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 #include "rbtree.h"
-#include "Context.h"
+#include "context.h"
 #include <string>
 using std::string;
 

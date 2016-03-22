@@ -19,8 +19,8 @@
 #include "HttpRequest.h"
 #include "HttpResponse.h"
 
-#include "Config.h"
-#include "ServletRegister.h"
+#include "config.h"
+#include "servlet_register.h"
 
 class cgi_handle{
 public:

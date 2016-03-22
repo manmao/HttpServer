@@ -7,7 +7,7 @@
 #include <pthread.h>
 
 #include "locker.h"
-#include "ServletRegister.h"
+#include "servlet_register.h"
 #include "register.h"
 
 template <typename T>

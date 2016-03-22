@@ -28,7 +28,8 @@ TARGET_DIRS :=src/  \
 				src/servlet \
 				src/http_codec \
 				src/http_codec/api src/http_codec/http  src/http_codec/json \
-				src/shm
+				src/shm \
+				src/common/http_inf
 
 
 #.h 头文件目录
@@ -44,6 +45,7 @@ INCLUDE_DIR :=  \
 	-I$(MAKEROOT)/src/http_codec\api \
 	-I$(MAKEROOT)/src/http_codec\http \
 	-I$(MAKEROOT)/src/http_codec\json \
+	-I$(MAKEROOT)/src/common/http_inf \
 
 #lib静态库搜索路劲
 LIB_DIR := -L$(MAKEROOT)/lib \

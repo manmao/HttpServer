@@ -1,3 +1,11 @@
----- data_type Search Errors Encountered (1) ----
+---- ServletRegister.h Search Errors Encountered (2) ----
+The following 2 files could not be processed:
+F:\share\HttpServer\src\common\ServletRegister.h : File could not be opened.
+F:\share\HttpServer\src\common\setsocket.h : File could not be opened.
+---- servlet_register Search Errors Encountered (1) ----
 The following 1 files could not be processed:
+F:\share\HttpServer\src\common\setsocket.h : File could not be opened.
+---- ServletRegister.h Search Errors Encountered (2) ----
+The following 2 files could not be processed:
+F:\share\HttpServer\src\common\ServletRegister.h : File could not be opened.
 F:\share\HttpServer\src\common\setsocket.h : File could not be opened.

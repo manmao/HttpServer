@@ -19,7 +19,7 @@
 
 #include "threadpool.h"
 #include "cgi_handle.h"
-#include "Config.h"
+#include "config.h"
 
 
 /* 用于处理客户CGI 请求的类，它可以作为processpool 类的模版参数 */

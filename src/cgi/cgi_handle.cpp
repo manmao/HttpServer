@@ -220,6 +220,6 @@ void cgi_handle::req_servlet(ServletRegister *sr,string uri){
 
    Context *context=node->data_content->context;
    //在这里初始化Servlet数据
-   context->st->create(this->req,this->rsp);
+   context->get_servlet()->create(this->req,this->rsp);
 }
 
