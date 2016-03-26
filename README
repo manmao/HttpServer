@@ -1,2 +1,4 @@
-make   ����HTTP������
-make USE_HTTP_SSL=TRUE  ����HTTPS������
+
+make   编译普通服务器
+
+make USE_HTTP_SSL=TRUE  编译https服务器.，需要提前安装openssl,我使用的版本为openssl1.0.2g
