@@ -1,18 +1,25 @@
 #include "HttpResponse.h"
 
-   HttpResponse::HttpResponse(int sockfd,string content_type){
+  HttpResponse::HttpResponse(int sockfd,string content_type){
        this->add_head="";
        this->m_sockfd=sockfd;
        this->content_type=content_type;
-   }
+  }
 
-   HttpResponse::~HttpResponse()
-   {
+  HttpResponse::~HttpResponse()
+  {
 
-   }
+  }
 
-    //发送数据
-   int  HttpResponse::send_msg(string content){
+  void  HttpResponse::send_redirect(string redirect_url)
+  {
+      string res;
+      CHttpResponseMaker::make_302_error(redirect_url,"",res);
+      send(this->m_sockfd,res.c_str(),res.length(),0);
+  }
+
+   //发送数据
+   int  HttpResponse::send_reply(string content){
        string res;
        CHttpResponseMaker::make_string(content,res,this->content_type,this->add_head);
        send(this->m_sockfd,res.c_str(),res.length(),0);
