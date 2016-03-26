@@ -116,7 +116,9 @@ static void addfd(int epollfd,int fd)
 	event.data.fd=fd;
 	event.events=EPOLLIN|EPOLLET;
 	epoll_ctl(epollfd,EPOLL_CTL_ADD,fd,&event);
+#ifndef _USE_HTTP_SSL
     setnonblocking(fd);//如果设置为非阻塞，那么数据还没有发送出去，send()将会返回
+#endif
 }
 
 
@@ -303,12 +305,12 @@ void processpool<T>::run_child(Config *config)
 
 					    if(connfd <= 0) //
 					    {
-						    printf("errno is:%d\n",errno);
+						    printf("accept errno is:%d\n",errno);
                             break;
 					    }
 
 					    addfd(m_epollfd,connfd);
-                        printf(" %s,%d   connfd:%d\n",__FILE__,__LINE__,connfd);
+                        //printf(" %s,%d   connfd:%d\n",__FILE__,__LINE__,connfd);
 					    /**模版类T必须实现init方法，以初始化一个客户端连接。
 					    我们直接使用connfd来索引逻辑处理对象，提高程序效率**/
 					    user[connfd].init(m_epollfd,connfd,client_address,tp,config);
@@ -421,8 +423,8 @@ void processpool<T>::run_parent()
 				sub_process_counter=(i+1)%m_process_number;
 				send(m_sub_process[i].m_pipefd[0],(char *)&new_conn,sizeof(new_conn),0);
 				printf("send request to child %d\n",i);
-                  count++;
-                        printf("连接数量:%d\n",count);
+                count++;
+                printf("连接数量:%d\n",count);
 			}
 			/*** 处理父进程接收到的信号 ***/
 			else if((sockfd == sig_pipefd[0]) && (events[i].events & EPOLLIN))

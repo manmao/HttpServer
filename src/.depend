@@ -24,8 +24,4 @@
  /mnt/hgfs/share/HttpServer/src/common/config.h \
  /mnt/hgfs/share/HttpServer/src/cgi/cgi_conn.h \
  /mnt/hgfs/share/HttpServer/src/pool/threadpool.h \
- /mnt/hgfs/share/HttpServer/src/cgi/cgi_handle.h \
- /mnt/hgfs/share/HttpServer/src/shm/share.h \
- /mnt/hgfs/share/HttpServer/src/shm/semnu.h \
- /mnt/hgfs/share/HttpServer/src/shm/svshm_xfr.h \
- /mnt/hgfs/share/HttpServer/src/shm/binary_sems.h
+ /mnt/hgfs/share/HttpServer/src/cgi/cgi_handle.h

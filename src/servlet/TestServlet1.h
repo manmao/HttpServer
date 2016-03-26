@@ -16,10 +16,9 @@ public:
     }
 
     void get(HttpRequest*req,HttpResponse *rsp){
-       /* printf("get method %s\n",req->get_param("man").c_str());
+        printf("get method %s\n",req->get_param("man").c_str());
         printf("get method %s\n",req->get_uri().c_str());
-        rsp->send_msg(req->get_param("man")+"      servlet1");*/
-        rsp->send_redirect("https://www.baidu.com");
+        rsp->send_reply(req->get_param("man")+"      servlet1");
     }
 };
 

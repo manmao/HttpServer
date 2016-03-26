@@ -5,30 +5,34 @@
 #include <assert.h>
 #include <iostream>
 
+
 #include "inet_sockets.h"
 #include "setsocket.h"
 #include "processpool.h"
 #include "cgi_conn.h"
-#include "register.h"
 
-#include "share.h"
 
 int main(int argc,char *argv[])
 {
-
     //初始化配置
     Config *config=NULL;
     if(argc == 2){
-      config=new Config(argv[1]);
+       config=new Config(argv[1]);
     }else if(argc == 1){
-      config=new Config();
+       config=new Config();
     }
     config->init_config();
 
+#ifdef _USE_HTTP_SSL
     //初始化端口连接
-    int listenfd=inetListen(config->listenPort.c_str(),config->backlog, NULL);
-    assert(listenfd > 0);
+    config->init_ssl();
+    int listenfd=inetListen(config->https_port.c_str(),config->backlog, NULL);
+#else
+     //初始化端口连接
+     int listenfd=inetListen(config->http_port.c_str(),config->backlog, NULL);
+#endif
 
+    assert(listenfd > 0);
     set_socket(listenfd);
 
     processpool<cgi_conn> *pool = processpool<cgi_conn>::create(listenfd,config->procs);
@@ -37,6 +41,8 @@ int main(int argc,char *argv[])
         pool->run(config);  //exe same time
         delete pool;
     }
+
+
     //正如前文提到的，main函数创建了文件描述符 listenfd,那么就由它亲自关闭之
     close(listenfd);
 

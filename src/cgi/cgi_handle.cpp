@@ -22,6 +22,18 @@ int setnonblocking(int fd)
     return old_option;
 }
 
+#ifdef _USE_HTTP_SSL
+cgi_handle::cgi_handle(int epollfd,int sockfd,struct sockaddr_in address,Config *conf,SSL *ssl)
+{
+    this->m_epollfd=epollfd;
+    this->m_sockfd=sockfd;
+    this->m_address=address;
+    this->req=NULL;
+    this->rsp=NULL;
+    this->config=conf;
+    this->ssl=ssl;
+}
+#endif
 
 cgi_handle::cgi_handle(int epollfd,int sockfd,struct sockaddr_in address,Config *conf)
 {
@@ -35,23 +47,39 @@ cgi_handle::cgi_handle(int epollfd,int sockfd,struct sockaddr_in address,Config 
 
 cgi_handle::~cgi_handle()
 {
-    delete this->req;
-    delete this->rsp;
+    if(this->req)
+        delete this->req;
+   if(this->rsp)
+        delete this->rsp;
 }
 
 void cgi_handle::removefd(int epollfd,int fd)
 {
     epoll_ctl(epollfd,EPOLL_CTL_DEL,fd,0);
+#ifdef _USE_HTTP_SSL
+    SSL_shutdown(ssl);
+    SSL_free(ssl);
+#endif
     close(fd);
 }
 
+
+
 int cgi_handle::process(ServletRegister *sr)
 {
+   int buflen=-1;
    char http_content_buff[5120];
-   this->rsp=new HttpResponse(this->m_sockfd);
    while(1)
-   {   //接收客户端发送过来的数据
-       int buflen=recv(this->m_sockfd,http_content_buff,5120,0);
+   {
+
+//接收客户端发送过来的数据
+#ifdef _USE_HTTP_SSL
+        assert(this->ssl);
+        buflen = SSL_read(this->ssl,http_content_buff,5120);
+        CHK_SSL(buflen);
+#else
+        buflen=recv(this->m_sockfd,http_content_buff,5120,0);
+#endif
        if(buflen < 0)
        {
            if(errno== EAGAIN || errno == EINTR || errno == EWOULDBLOCK){ //即当buflen<0且errno=EAGAIN时，表示没有数据了。(读/写都是这样)
@@ -61,7 +89,12 @@ int cgi_handle::process(ServletRegister *sr)
                 //错误数据
                 string res;
                 CHttpResponseMaker::make_400_error(res);
-                send(this->m_sockfd,res.c_str(),res.length()+1,0);
+                #ifdef _USE_HTTP_SSL
+                    int err=SSL_write(this->ssl, res.c_str(),res.length()+1);
+                    CHK_SSL(err);
+                #else
+                    send(this->m_sockfd,res.c_str(),res.length()+1,0);
+                #endif
                 cgi_handle::removefd(this->m_epollfd,this->m_sockfd);
            }
            return -1;
@@ -87,7 +120,6 @@ int cgi_handle::process(ServletRegister *sr)
    }
    return 0;
 }
-
 
 bool cgi_handle::isFile(const string object,string &content_type){
 
@@ -126,7 +158,6 @@ void cgi_handle::req_dispathch(ServletRegister *sr)
         content_type="text/html";
         goto DEAL;
     }
-
     if(isFile(object,content_type))
     {
         goto DEAL;
@@ -143,11 +174,21 @@ DEAL: //处理请求静态文件
     {
         string res;
         CHttpResponseMaker::make_404_error(res);
-        send(this->m_sockfd,res.c_str(),res.length()+1,0);
-        return ;
+     #ifdef _USE_HTTP_SSL
+         int err=SSL_write(this->ssl, res.c_str(),res.length()+1);
+         CHK_SSL(err);
+     #else
+         send(this->m_sockfd,res.c_str(),res.length()+1,0);
+     #endif
+
+     return ;
     }
 
+#ifdef _USE_HTTP_SSL
+    this->https_req_static_file(file_path,content_type.c_str());
+#else
     this->req_static_file(file_path,content_type.c_str());
+#endif
 
     return ;
 }
@@ -187,22 +228,66 @@ void cgi_handle::req_static_file(const char *path,const char* content_type)
           else{
              sendfile(this->m_sockfd,fd,&(offset),chuck);
           }
+
           i++;
           total -= chuck;
           offset=i*chuck;
      }
 
      close(fd);
-
      printf("read complete!!!\n");
-
 }
 
+#ifdef _USE_HTTP_SSL
+//处理静态文件请求
+void cgi_handle::https_req_static_file(const char *path,const char* content_type)
+{
+    printf("%s\n",path);
+    int fd=open(path,O_RDONLY);
+    assert(fd);
+    unsigned long long length = lseek(fd, 0, SEEK_END);
+    lseek(fd,0,SEEK_SET);
+    printf("%lld\n",length); //文件长度
+
+    //发送头部
+    char http_buff[1024]={0};
+    int head_size=CHttpResponseMaker::make_headers(length,http_buff,content_type);
+    SSL_write(this->ssl,http_buff,head_size);
+
+     //sendfile发送数据
+     long chuck=1024*200;
+     long i=0;
+     long total=length;
+     long offset=0;
+
+     unsigned char file_buf[chuck];
+     int size=0;
+
+     while(1){
+        size=read(fd,file_buf,chuck);
+        SSL_write(this->ssl,file_buf,size);
+
+        if(total<chuck)
+           break;
+        i++;
+        total -= chuck;
+        offset=i*chuck;
+        memset(file_buf,'0',chuck);
+     }
+     close(fd);
+     printf("read complete!!!\n");
+}
+#endif
 
 
 //处理Servlet请求
 void cgi_handle::req_servlet(ServletRegister *sr,string uri){
 
+#ifdef _USE_HTTP_SSL
+    this->rsp=new HttpResponse(this->m_sockfd,this->ssl);
+#else
+    this->rsp=new HttpResponse(this->m_sockfd);
+#endif
     struct rb_root mp=sr->get_url_map();
     //查找url对应的上下文
     struct node_data_type type;
@@ -214,7 +299,12 @@ void cgi_handle::req_servlet(ServletRegister *sr,string uri){
     {
       string res;
       CHttpResponseMaker::make_404_error(res);
+ #ifdef _USE_HTTP_SSL
+      int err=SSL_write(this->ssl, res.c_str(),res.length()+1);
+      CHK_SSL(err);
+ #else
       send(this->m_sockfd,res.c_str(),res.length()+1,0);
+ #endif
       return ;
    }
 

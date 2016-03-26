@@ -21,6 +21,9 @@
 #include "cgi_handle.h"
 #include "config.h"
 
+#ifdef _USE_HTTP_SSL
+  #include "config_ssl.h"
+#endif
 
 /* 用于处理客户CGI 请求的类，它可以作为processpool 类的模版参数 */
 class cgi_conn
@@ -31,6 +34,9 @@ public:
     /* 初始化客户连接，清空读缓冲区 */
     void init(int epollfd,int sockfd,const sockaddr_in& client_addr,threadpool<cgi_handle> *tp,Config *config);
     void process();
+#ifdef _USE_HTTP_SSL
+   void createSSL();
+#endif
 private:
     static int m_epollfd;
     int m_sockfd;
@@ -39,6 +45,10 @@ private:
     cgi_handle *ch;
 private:
     Config *config;
+#ifdef _USE_HTTP_SSL
+     SSL* ssl;
+#endif
+
 
 };
 

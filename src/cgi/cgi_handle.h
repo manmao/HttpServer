@@ -22,18 +22,33 @@
 #include "config.h"
 #include "servlet_register.h"
 
+#ifdef _USE_HTTP_SSL
+  #include "config_ssl.h"
+#endif
+
+
 class cgi_handle{
 public:
+#ifdef _USE_HTTP_SSL
+    cgi_handle(int epollfd,int sockfd,struct sockaddr_in     address,Config *conf,SSL * ssl);
+#endif
     cgi_handle(int epollfd,int sockfd,struct sockaddr_in address,Config *conf);
+
     ~cgi_handle();
     int process(ServletRegister *sr);
 private:
     void req_dispathch(ServletRegister *sr);
     void req_static_file(const char *path,const char* content_type);
     void req_servlet(ServletRegister *sr,string uri);
+
+#ifdef _USE_HTTP_SSL
+    void https_req_static_file(const char *path,const char* content_type);
+#endif
+
 private:
-   static void removefd(int epollfd,int fd);
+   void removefd(int epollfd,int fd);
    bool isFile(const string object,string &content_type);
+
 private:
     int m_epollfd;
     int m_sockfd;
@@ -42,6 +57,9 @@ private:
     HttpRequest* req;
     HttpResponse* rsp;
     Config *config;
+#ifdef _USE_HTTP_SSL
+    SSL* ssl;
+#endif
 };
 
 #endif

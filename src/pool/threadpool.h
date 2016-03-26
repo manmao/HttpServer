@@ -125,7 +125,6 @@ void threadpool<T> ::run()
 		{
 			continue;
 		}
-
         //线程阻塞执行任务
 		request->process(sr);/*运行请求的回调函数*/
 

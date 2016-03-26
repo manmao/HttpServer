@@ -56,71 +56,72 @@ void CHttpResponseMaker::make_string(const string& strContent, string& strResp, 
 
 void CHttpResponseMaker::make_404_error(string& strResp)
 {
-    string strContent;
-    strContent += "<html>\r\n";
-    strContent += "<head><title>404 Not Found</title></head>\r\n";
-    strContent += "<body bgcolor=\"white\">\r\n";
-    strContent += "<center><h1>404 Not Found</h1></center>\r\n";
-    strContent += "<hr><center>HTTP Server</center>\r\n";
-    strContent += "</body>\r\n";
-    strContent += "</html>\r\n";
-    strContent += "<!-- The padding to disable MSIE's friendly error page -->";
-    strContent += "<!-- The padding to disable MSIE's friendly error page -->";
-    strContent += "<!-- The padding to disable MSIE's friendly error page -->";
-    strContent += "<!-- The padding to disable MSIE's friendly error page -->";
-    strContent += "<!-- The padding to disable MSIE's friendly error page -->";
-    strContent += "<!-- The padding to disable MSIE's friendly error page -->";
+	string strContent;
+	strContent += "<html>\r\n";
+	strContent += "<head><title>404 Not Found</title></head>\r\n";
+	strContent += "<body bgcolor=\"white\">\r\n";
+	strContent += "<center><h1>404 Not Found</h1></center>\r\n";
+	strContent += "<hr><center>HTTP Server</center>\r\n";
+	strContent += "</body>\r\n";
+	strContent += "</html>\r\n";
+	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
+	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
+	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
+	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
+	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
+	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
 
-    char szTemp[100];
-    sprintf(szTemp, "Content-Length: %d\r\n", (int)strContent.size());
+	char szTemp[100];
+	sprintf(szTemp, "Content-Length: %d\r\n", (int)strContent.size());
 
-    strResp = "HTTP/1.1 404 Not Found\r\n";
-    strResp += "Server: HTTP Server\r\n";
-    strResp += "Content-Type: text/html; charset=UTF-8\r\n";
-    strResp += szTemp;
-    strResp += "Connection: keep-alive\r\n";
-    strResp += "\r\n";
-    strResp += strContent;
+	strResp = "HTTP/1.1 404 Not Found\r\n";
+	strResp += "Server: HTTP Server\r\n";
+	strResp += "Content-Type: text/html; charset=UTF-8\r\n";
+	strResp += szTemp;
+	strResp += "Connection: keep-alive\r\n";
+	strResp += "\r\n";
+	strResp += strContent;
 }
 
 void CHttpResponseMaker::make_400_error(string& strResp)
 {
-    string strContent;
-    strContent += "<html>\r\n";
-    strContent += "<head><title>400 Server Error</title></head>\r\n";
-    strContent += "<body bgcolor=\"white\">\r\n";
-    strContent += "<center><h1>400 Server Error</h1></center>\r\n";
-    strContent += "<hr><center>HTTP Server</center>\r\n";
-    strContent += "</body>\r\n";
-    strContent += "</html>\r\n";
-    strContent += "<!-- The padding to disable MSIE's friendly error page -->";
-    strContent += "<!-- The padding to disable MSIE's friendly error page -->";
-    strContent += "<!-- The padding to disable MSIE's friendly error page -->";
-    strContent += "<!-- The padding to disable MSIE's friendly error page -->";
-    strContent += "<!-- The padding to disable MSIE's friendly error page -->";
+	string strContent;
+	strContent += "<html>\r\n";
+	strContent += "<head><title>400 Server Error</title></head>\r\n";
+	strContent += "<body bgcolor=\"white\">\r\n";
+	strContent += "<center><h1>400 Server Error</h1></center>\r\n";
+	strContent += "<hr><center>HTTP Server</center>\r\n";
+	strContent += "</body>\r\n";
+	strContent += "</html>\r\n";
+	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
+	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
+	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
+	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
+	strContent += "<!-- The padding to disable MSIE's friendly error page -->";
     strContent += "<!-- The padding to disable MSIE's friendly error page -->";
 
     char szTemp[100];
     sprintf(szTemp, "Content-Length: %d\r\n", (int)strContent.size());
 
-    strResp = "HTTP/1.1 400 Bad Request\r\n";
-    strResp += "Server: HttpServer\r\n";
-    strResp += "Content-Type: text/html; charset=UTF-8\r\n";
-    strResp += szTemp;
-    strResp += "Connection: keep-alive\r\n";
-    strResp += "\r\n";
-    strResp += strContent;
+	strResp = "HTTP/1.1 400 Bad Request\r\n";
+	strResp += "Server: HttpServer\r\n";
+	strResp += "Content-Type: text/html; charset=UTF-8\r\n";
+	strResp += szTemp;
+	strResp += "Connection: keep-alive\r\n";
+	strResp += "\r\n";
+	strResp += strContent;
 }
 
 
 void CHttpResponseMaker::make_302_error(const string& strLocation, const string& strMoveTo, string& strResp)
 {
-    /*string strContent;
-    strContent += "<html><head><title>Object moved</title></head><body>\r\n";
-    strContent += "<h2>Object moved to <a href=\"";
-    strContent += strMoveTo;
-    strContent += "\">here</a>.</h2>\r\n";
-    strContent += "</body></html>\r\n";*/
+    /*
+	sstring strContent;
+	strContent += "<html><head><title>Object moved</title></head><body>\r\n";
+	strContent += "<h2>Object moved to <a href=\"";
+	strContent += strMoveTo;
+	strContent += "\">here</a>.</h2>\r\n";
+	strContent += "</body></html>\r\n";*/
 
     string strContent="";
     char szTemp[100];
@@ -135,38 +136,39 @@ void CHttpResponseMaker::make_302_error(const string& strLocation, const string&
     strResp += strLocation + "\r\n";
     strResp += "\r\n";
     strResp += strContent;
+
 }
 
 void CHttpParamStringMaker::add_param(const string& strKey, const string& strValue)
 {
-    HttpGetMakerParam param;
-    param.strKey = strKey;
-    param.strValue = strValue;
-    m_params.push_back(param);
+	HttpGetMakerParam param;
+	param.strKey = strKey;
+	param.strValue = strValue;
+	m_params.push_back(param);
 }
 
 void CHttpParamStringMaker::add_param(const string& strKey, int nValue)
 {
-    char szValue[100];
-    sprintf(szValue, "%u", nValue);
-    add_param(strKey, szValue);
+	char szValue[100];
+	sprintf(szValue, "%u", nValue);
+	add_param(strKey, szValue);
 }
 
 void CHttpParamStringMaker::set_paramlines(const string& strParamLines)
 {
-    m_strParamLines = strParamLines;
+	m_strParamLines = strParamLines;
 }
 
 string CHttpParamStringMaker::get_params()
 {
-    if(!m_strParamLines.empty())
-        return m_strParamLines;
+	if(!m_strParamLines.empty())
+		return m_strParamLines;
 
-    char szParams[4096] = {0};
-     list<HttpGetMakerParam>::iterator it;
-    for(it = m_params.begin(); it != m_params.end(); it++)
-    {
-    	HttpGetMakerParam param = *it;
+	char szParams[4096] = {0};
+	list<HttpGetMakerParam>::iterator it;
+	for(it = m_params.begin(); it != m_params.end(); it++)
+	{
+		HttpGetMakerParam param = *it;
 
 		char szTmp[1024];
 		sprintf(szTmp, "%s=%s&", param.strKey.c_str(), param.strValue.c_str());
