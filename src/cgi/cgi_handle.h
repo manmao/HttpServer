@@ -29,6 +29,7 @@
 
 class cgi_handle{
 public:
+
 #ifdef _USE_HTTP_SSL
     cgi_handle(int epollfd,int sockfd,struct sockaddr_in     address,Config *conf,SSL * ssl);
 #endif

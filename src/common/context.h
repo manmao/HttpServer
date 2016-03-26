@@ -24,6 +24,7 @@ public:
     Context(){
         this->st=NULL;
     }
+
     ~Context(){}
 
     Servlet *get_servlet()

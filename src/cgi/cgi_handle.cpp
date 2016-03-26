@@ -73,13 +73,13 @@ int cgi_handle::process(ServletRegister *sr)
    {
 
 //接收客户端发送过来的数据
-#ifdef _USE_HTTP_SSL
+    #ifdef _USE_HTTP_SSL
         assert(this->ssl);
         buflen = SSL_read(this->ssl,http_content_buff,5120);
         CHK_SSL(buflen);
-#else
+    #else
         buflen=recv(this->m_sockfd,http_content_buff,5120,0);
-#endif
+    #endif
        if(buflen < 0)
        {
            if(errno== EAGAIN || errno == EINTR || errno == EWOULDBLOCK){ //即当buflen<0且errno=EAGAIN时，表示没有数据了。(读/写都是这样)
@@ -89,12 +89,12 @@ int cgi_handle::process(ServletRegister *sr)
                 //错误数据
                 string res;
                 CHttpResponseMaker::make_400_error(res);
-                #ifdef _USE_HTTP_SSL
-                    int err=SSL_write(this->ssl, res.c_str(),res.length()+1);
-                    CHK_SSL(err);
-                #else
-                    send(this->m_sockfd,res.c_str(),res.length()+1,0);
-                #endif
+            #ifdef _USE_HTTP_SSL
+                int err=SSL_write(this->ssl, res.c_str(),res.length()+1);
+                CHK_SSL(err);
+            #else
+                send(this->m_sockfd,res.c_str(),res.length()+1,0);
+            #endif
                 cgi_handle::removefd(this->m_epollfd,this->m_sockfd);
            }
            return -1;
@@ -184,11 +184,11 @@ DEAL: //处理请求静态文件
      return ;
     }
 
-#ifdef _USE_HTTP_SSL
-    this->https_req_static_file(file_path,content_type.c_str());
-#else
-    this->req_static_file(file_path,content_type.c_str());
-#endif
+    #ifdef _USE_HTTP_SSL
+        this->https_req_static_file(file_path,content_type.c_str());
+    #else
+        this->req_static_file(file_path,content_type.c_str());
+    #endif
 
     return ;
 }
@@ -238,6 +238,7 @@ void cgi_handle::req_static_file(const char *path,const char* content_type)
      printf("read complete!!!\n");
 }
 
+
 #ifdef _USE_HTTP_SSL
 //处理静态文件请求
 void cgi_handle::https_req_static_file(const char *path,const char* content_type)
@@ -283,11 +284,12 @@ void cgi_handle::https_req_static_file(const char *path,const char* content_type
 //处理Servlet请求
 void cgi_handle::req_servlet(ServletRegister *sr,string uri){
 
-#ifdef _USE_HTTP_SSL
-    this->rsp=new HttpResponse(this->m_sockfd,this->ssl);
-#else
-    this->rsp=new HttpResponse(this->m_sockfd);
-#endif
+    #ifdef _USE_HTTP_SSL
+        this->rsp=new HttpResponse(this->m_sockfd,this->ssl);
+    #else
+        this->rsp=new HttpResponse(this->m_sockfd);
+    #endif
+
     struct rb_root mp=sr->get_url_map();
     //查找url对应的上下文
     struct node_data_type type;
@@ -297,13 +299,13 @@ void cgi_handle::req_servlet(ServletRegister *sr,string uri){
     //上下文为空，则请求的路径没有
     if(node == NULL)
     {
-      string res;
-      CHttpResponseMaker::make_404_error(res);
+       string res;
+       CHttpResponseMaker::make_404_error(res);
  #ifdef _USE_HTTP_SSL
-      int err=SSL_write(this->ssl, res.c_str(),res.length()+1);
-      CHK_SSL(err);
+       int err=SSL_write(this->ssl, res.c_str(),res.length()+1);
+       CHK_SSL(err);
  #else
-      send(this->m_sockfd,res.c_str(),res.length()+1,0);
+       send(this->m_sockfd,res.c_str(),res.length()+1,0);
  #endif
       return ;
    }

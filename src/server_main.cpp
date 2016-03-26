@@ -22,10 +22,11 @@ int main(int argc,char *argv[])
        config=new Config();
     }
     config->init_config();
-
 #ifdef _USE_HTTP_SSL
-    //初始化端口连接
+    //init ssl
     config->init_ssl();
+
+    //初始化端口连接
     int listenfd=inetListen(config->https_port.c_str(),config->backlog, NULL);
 #else
      //初始化端口连接
@@ -41,7 +42,6 @@ int main(int argc,char *argv[])
         pool->run(config);  //exe same time
         delete pool;
     }
-
 
     //正如前文提到的，main函数创建了文件描述符 listenfd,那么就由它亲自关闭之
     close(listenfd);

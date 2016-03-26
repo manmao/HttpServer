@@ -8,6 +8,7 @@ cgi_conn::cgi_conn()
 
 cgi_conn::~cgi_conn()
 {
+
 }
 
 
@@ -15,7 +16,8 @@ cgi_conn::~cgi_conn()
 void cgi_conn::createSSL()
 {
     this->ssl=getSSL(this->config->ctx,this->m_sockfd);
-  //getClientCert(this->ssl);
+    //校验客户端的证书
+   //getClientCert(this->ssl);
 }
 #endif
 
@@ -32,7 +34,6 @@ void cgi_conn::init(int epollfd,
     this->config=config;
 #ifdef _USE_HTTP_SSL
     this->createSSL();
-    printf("createSSL\n");
 #endif
 }
 
