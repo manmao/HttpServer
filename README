@@ -1,4 +1,14 @@
+编译:
 
 make   编译普通服务器
 
 make USE_HTTP_SSL=TRUE  编译https服务器.，需要提前安装openssl,我使用的版本为openssl1.0.2g
+
+运行:
+
+   默认配置文件
+  ./bin/http_cpp
+
+  自定义系统配置文件位置
+  ./bin/http_cpp config_file_path
+
