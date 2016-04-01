@@ -37,12 +37,16 @@
  extern "C"{
 #endif
 
+//创建SSL上下文
 extern SSL_CTX* SSL_preliminaries(const char *certpath,const char *keypath);
 
-extern SSL* getSSL(SSL_CTX* ctx,int sd);
+//创建SSL
+extern SSL* createSSL(SSL_CTX* ctx,int sd);
 
+//获取客户端证书
 extern void getClientCert(SSL* ssl);
 
+//释放资源
 extern void freeSSL(SSL_CTX* ctx,SSL* ssl);
 
 
