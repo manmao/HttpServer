@@ -17,6 +17,9 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <map>
+
+using std::map;
 
 int CHttpResponseMaker::make(const char* szContent, int nContentLen,int totalContentLen,char* szBuffer, int nBufferSize, const char* content_type)
 {
@@ -36,22 +39,32 @@ int CHttpResponseMaker::make(const char* szContent, int nContentLen,int totalCon
     return strlen(szBuffer);
 }
 
-int CHttpResponseMaker::make_headers(int totalContentLen ,
-                    char* szBuffer,const char* content_type)
-{
-   sprintf(szBuffer, "HTTP/1.1 200 OK\r\nContent-Length: %d\r\nContent-Type: %s;charset=UTF-8\r\nConnection: Keep-Alive\r\n\r\n",
-        totalContentLen, content_type);
-   return strlen(szBuffer);
+string CHttpResponseMaker::map_to_headerstr(map<string,string> header_map){
+      map<string,string>::iterator it;
+      string header_str;
+      for(it=header_map.begin();it!=header_map.end();++it){
+           header_str += it->first+": "+it->second+"\r\n";
+      }
+      return header_str;
 }
 
 
+int CHttpResponseMaker::make_headers(int totalContentLen ,
+                    char* szBuffer,const char* content_type,
+                    const char* charset,const char *head_str)
+{
+   sprintf(szBuffer, "HTTP/1.1 200 OK\r\nContent-Length: %d\r\nContent-Type: %s;charset=%s\r\nConnection: Keep-Alive\r\n%s\r\n",
+        totalContentLen, content_type,charset,head_str);
 
-void CHttpResponseMaker::make_string(const string& strContent, string& strResp, string& content_type, string& add_head)
+   return strlen(szBuffer);
+}
+
+void CHttpResponseMaker::make_string(const string& strContent, string& strResp, string& content_type,string& charset,string& add_head)
 {
     strResp.clear();
     std::ostringstream s;
     s << strContent.size();
-    strResp = "HTTP/1.1 200 OK\r\nContent-Length: "+s.str()+"\r\nContent-Type: "+content_type+";charset=utf-8\r\n"+add_head+"\r\n"+strContent;
+    strResp = "HTTP/1.1 200 OK\r\nContent-Length: "+s.str()+"\r\nContent-Type: "+content_type+";charset="+charset+"\r\n"+add_head+"\r\n"+strContent;
 }
 
 void CHttpResponseMaker::make_404_error(string& strResp)
@@ -643,6 +656,15 @@ string CHttpParser::get_param_string()
 
 	return "";
 }
+
+const char* CHttpParser::get_content(){
+
+   if(m_pszContent && (m_nExtraParamType == HTTP_UTIL_PARAM_ALL || m_nExtraParamType == HTTP_UTIL_PARAM_CONTENT))
+        return this->m_pszContent;
+
+    return "";
+}
+
 
 string CHttpParser::get_uri()
 {

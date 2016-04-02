@@ -41,7 +41,7 @@
 extern SSL_CTX* SSL_preliminaries(const char *certpath,const char *keypath);
 
 //创建SSL
-extern SSL* createSSL(SSL_CTX* ctx,int sd);
+extern SSL* createSSLInstence(SSL_CTX* ctx,int sd);
 
 //获取客户端证书
 extern void getClientCert(SSL* ssl);

@@ -37,7 +37,7 @@ SSL_CTX* SSL_preliminaries(const char *certpath,const char *keypath){
 }
 
 
- SSL* createSSL(SSL_CTX* ctx,int sd){
+ SSL* createSSLInstence(SSL_CTX* ctx,int sd){
 
       /* TCP connection is ready. Do server side SSL. */
       int err;

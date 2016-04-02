@@ -22,15 +22,17 @@ int main(int argc,char *argv[])
        config=new Config();
     }
     config->init_config();
+
 #ifdef _USE_HTTP_SSL
     //init ssl
     config->init_ssl();
-
     //初始化端口连接
     int listenfd=inetListen(config->https_port.c_str(),config->backlog, NULL);
+    printf("***********INIT HTTPS SERVER **************\n");
 #else
      //初始化端口连接
      int listenfd=inetListen(config->http_port.c_str(),config->backlog, NULL);
+     printf("***********INIT HTTP SERVER**************\n");
 #endif
 
     assert(listenfd > 0);

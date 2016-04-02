@@ -45,8 +45,11 @@ public:
 	virtual ~CHttpResponseMaker(){}
 public:
 	static int		make(const char* szContent, int nContentLen,int totalContentLen ,char* szBuffer, int nBufferSize, const char* content_type);
-    static int		make_headers(int totalContentLen ,char* szBuffer,const char* content_type);
-    static void		make_string(const string& strContent, string& strResp, string& content_type, string& add_head);
+    //将map的header键值对转化成string
+    static string   map_to_headerstr(map<string,string> header_map);
+    //构建一个http头部
+    static int		make_headers(int totalContentLen ,char* szBuffer,const char* content_type,const char* charset="utf-8",const char *head_str="");
+    static void		make_string(const string& strContent, string& strResp, string& content_type,string &charset,string& add_head);
 	static void		make_404_error(string& strResp);
     static void		make_400_error(string& strResp);
 	static void		make_302_error(const string& strLocation, const string& strMoveTo, string& strResp);
@@ -220,7 +223,11 @@ public:
 	int get_param_int(const char* szKey);
 
 	//获取参数字符串，如 "aaa=123&bbb=321&ccc=888"
-	string		get_param_string();
+	string	get_param_string();
+
+    //获取http请求Content
+    const char* get_content();
+
 
 	//获取uri内容，如 "/update/mytest"
 	string		get_uri();

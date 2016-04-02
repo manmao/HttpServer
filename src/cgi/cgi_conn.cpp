@@ -15,7 +15,7 @@ cgi_conn::~cgi_conn()
 #ifdef _USE_HTTP_SSL
 void cgi_conn::createSSL()
 {
-    this->ssl=createSSL(this->config->ctx,this->m_sockfd);
+    this->ssl=createSSLInstence(this->config->ctx,this->m_sockfd);
     //校验客户端的证书
    //getClientCert(this->ssl);
 }

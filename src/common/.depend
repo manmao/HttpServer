@@ -3,7 +3,8 @@
  /mnt/hgfs/share/HttpServer/src/common/http_inf/Servlet.h \
  /mnt/hgfs/share/HttpServer/src/http_codec/http/http_util.h \
  /mnt/hgfs/share/HttpServer/src/common/http_inf/HttpRequest.h \
- /mnt/hgfs/share/HttpServer/src/common/http_inf/HttpResponse.h
+ /mnt/hgfs/share/HttpServer/src/common/http_inf/HttpResponse.h \
+ /mnt/hgfs/share/HttpServer/src/ssl/config_ssl.h
 /mnt/hgfs/share/HttpServer/obj/rdconfig.o: rdconfig.cpp \
  /mnt/hgfs/share/HttpServer/inc/error_hdr.h \
  /mnt/hgfs/share/HttpServer/inc/error/get_num.h \
