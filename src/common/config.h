@@ -61,13 +61,13 @@ public:
         get_config_string(config_file,const_cast<char *>("http"),const_cast<char *>("http_port"),h_port);
 
         char hs_port[10];
-        get_config_string(config_file,const_cast<char *>("http"),const_cast<char *>("https_port"),hs_port);
+        get_config_string(config_file,const_cast<char *>("https"),const_cast<char *>("https_port"),hs_port);
 
         char log_path[516];
-        get_config_string(config_file,const_cast<char *>("http"),const_cast<char *>("logFilePath"),log_path);
+        get_config_string(config_file,const_cast<char *>("system"),const_cast<char *>("logFilePath"),log_path);
 
         char root_dir[516];
-        get_config_string(config_file,const_cast<char *>("http"),const_cast<char *>("rootDir"),root_dir);
+        get_config_string(config_file,const_cast<char *>("system"),const_cast<char *>("rootDir"),root_dir);
 
         this->http_port=h_port;
         this->https_port=hs_port;
@@ -77,9 +77,9 @@ public:
 
     #ifdef _USE_HTTP_SSL
         char cert_path[516];
-        get_config_string(config_file,const_cast<char *>("ssl"),const_cast<char *>("certPath"),cert_path);
+        get_config_string(config_file,const_cast<char *>("https"),const_cast<char *>("certPath"),cert_path);
         char  key_path[516];
-        get_config_string(config_file,const_cast<char *>("ssl"),const_cast<char *>("keyPath"),key_path);
+        get_config_string(config_file,const_cast<char *>("https"),const_cast<char *>("keyPath"),key_path);
 
         this->certpath=cert_path;
         this->keypath=key_path;
@@ -123,7 +123,6 @@ public:
     string certpath;
     string keypath;
 #endif
-
 
 };
 

@@ -1,4 +1,0 @@
-/mnt/hgfs/share/HttpServer/obj/timer_lists.o: timer_lists.c \
- /mnt/hgfs/share/HttpServer/inc/timer_list.h
-/mnt/hgfs/share/HttpServer/obj/rbtree.o: rbtree.c \
- /mnt/hgfs/share/HttpServer/inc/rbtree.h

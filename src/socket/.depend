@@ -1,2 +1,0 @@
-/mnt/hgfs/share/HttpServer/obj/inet_sockets.o: inet_sockets.cpp \
- inet_sockets.h
