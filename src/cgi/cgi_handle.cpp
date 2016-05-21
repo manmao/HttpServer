@@ -72,7 +72,7 @@ int cgi_handle::process(ServletRegister *sr)
    while(1)
    {
 
-//½ÓÊÕ¿Í»§¶Ë·¢ËÍ¹ıÀ´µÄÊı¾İ
+//æ ¹æ®é¢„ç¼–è¯‘æ¡ä»¶åˆ¤æ–­æ˜¯å¦ä½¿ç”¨SSLè¯»å–
     #ifdef _USE_HTTP_SSL
         assert(this->ssl);
         buflen = SSL_read(this->ssl,http_content_buff,5120);
@@ -82,11 +82,11 @@ int cgi_handle::process(ServletRegister *sr)
     #endif
        if(buflen < 0)
        {
-           if(errno== EAGAIN || errno == EINTR || errno == EWOULDBLOCK){ //¼´µ±buflen<0ÇÒerrno=EAGAINÊ±£¬±íÊ¾Ã»ÓĞÊı¾İÁË¡£(¶Á/Ğ´¶¼ÊÇÕâÑù)
-               //Êı¾İ¶ÁÈ¡Íê³É
+           if(errno== EAGAIN || errno == EINTR 
+|| errno == EWOULDBLOCK){ //å¦‚æœè¯»å–å®Œæˆï¼Œ
                break;
            }else{
-                //´íÎóÊı¾İ
+               //å¦‚æœè¯»å–å‡ºé”™ï¼Œåˆ™è¿”å›é”™è¯¯é¡µé¢
                 string res;
                 CHttpResponseMaker::make_400_error(res);
             #ifdef _USE_HTTP_SSL
@@ -99,13 +99,13 @@ int cgi_handle::process(ServletRegister *sr)
            }
            return -1;
        }
-       else if(buflen==0)  //¿Í»§¶Ë¶Ï¿ªÁ¬½Ó
+       else if(buflen==0)  //å®¢æˆ·ç«¯å…³é—­è¿æ¥
        {
-           /**½«ÎÄ¼şÃèÊö·û´Óepoll¶ÓÁĞÖĞÒÆ³ı**/
+          //ç§»é™¤
            cgi_handle::removefd(this->m_epollfd,this->m_sockfd);
            return 0;
        }
-       else if(buflen>0) //¿Í»§¶Ë·¢ËÍÊı¾İ¹ıÀ´ÁË
+       else if(buflen>0) //æœ‰æ•°æ®å¯è¯»
        {
           if(this->req)
           {
@@ -113,7 +113,7 @@ int cgi_handle::process(ServletRegister *sr)
               this->req=NULL;
           }
           this->req=new HttpRequest(http_content_buff,5120);
-          //·Ö·¢ÄÚÈİ,Ö´ĞĞÇëÇóµÄµØÖ·µÄÄÚÈİºÍ·½·¨
+          //åˆ†å‘è¯·æ±‚
           this->req_dispathch(sr);
        }
        memset(http_content_buff,'0',5120);
@@ -121,6 +121,11 @@ int cgi_handle::process(ServletRegister *sr)
    return 0;
 }
 
+/**
+*åˆ¤æ–­æ˜¯å¦æ˜¯æ–‡ä»¶ï¼Œå¦‚æœæ˜¯è¯·æ±‚çš„æ–‡ä»¶
+*ç”Ÿæˆå“åº”çš„ å†…å®¹ç±»å‹
+*
+*/
 bool cgi_handle::isFile(const string object,string &content_type){
 
     unsigned int loc=0;
@@ -147,7 +152,7 @@ bool cgi_handle::isFile(const string object,string &content_type){
 
 void cgi_handle::req_dispathch(ServletRegister *sr)
 {
-    string uri=this->req->get_uri(); //»ñÈ¡ÇëÇóurl
+    string uri=this->req->get_uri(); //è·å–è¯·æ±‚çš„è·¯å¾„
     string object=this->req->get_object();
     printf("req uri:%s\n",uri.c_str());
     string content_type;
@@ -162,12 +167,12 @@ void cgi_handle::req_dispathch(ServletRegister *sr)
     {
         goto DEAL;
 
-    }else{ //Èç¹ûÊÇ½Ó¿Ú
+    }else{ //è¯·æ±‚servlet
         this->req_servlet(sr,uri);
         return ;
     }
 
-DEAL: //´¦ÀíÇëÇó¾²Ì¬ÎÄ¼ş
+DEAL: //å¤„ç†æ–‡ä»¶è¯·æ±‚
     const char *file_path=(this->config->rootDir+uri).c_str();
     int ret=access(file_path,F_OK);
     if(ret)
@@ -194,7 +199,7 @@ DEAL: //´¦ÀíÇëÇó¾²Ì¬ÎÄ¼ş
 }
 
 
-//´¦Àí¾²Ì¬ÎÄ¼şÇëÇó
+//å¤„ç†è¯·æ±‚çš„é™æ€æ–‡ä»¶
 void cgi_handle::req_static_file(const char *path,const char* content_type)
 {
     printf("%s\n",path);
@@ -202,27 +207,27 @@ void cgi_handle::req_static_file(const char *path,const char* content_type)
     assert(fd);
     unsigned long long length = lseek(fd, 0, SEEK_END);
     lseek(fd,0,SEEK_SET);
-    printf("%lld\n",length); //ÎÄ¼ş³¤¶È
+    printf("%lld\n",length); //
 
-    //·¢ËÍÍ·²¿
+    //è¿”å›å“åº”æŠ¥å¤´
     char http_buff[1024]={0};
     int head_size=CHttpResponseMaker::make_headers(length,http_buff,content_type);
     send(this->m_sockfd,http_buff,head_size,0);
 
-     //sendfile·¢ËÍÊı¾İ
+     //sendfileå‘é€æ–‡ä»¶
      long chuck=1024*200;
      long i=0;
      long total=length;
      long offset=0;
      if(total>chuck)
      {
-       setblock(this->m_sockfd);//Èç¹û´óÎÄ¼ş£¬ÔòÍøÂçÎÄ¼şÃèÊö·û×èÈû´«Êä
+       setblock(this->m_sockfd);//å¦‚æœæ˜¯æ–‡ä»¶å‘é€ï¼Œåˆ™ä½¿ç”¨é˜»å¡æ–¹å¼å‘é€ï¼Œå¦åˆ™ä¼šé€ æˆï¼Œæ–‡ä»¶æœªå‘é€å®Œå°±é€€å‡ºçš„æƒ…å†µ
      }
      while(1){
           if(total<chuck)
           {
              sendfile(this->m_sockfd,fd,&(offset),total);
-             setnonblocking(this->m_sockfd);
+             setnonblocking(this->m_sockfd);//å½“å‘é€å®Œæ¯•ï¼Œè®¾ç½®æ–‡ä»¶æè¿°ç¬¦ä¸ºéé˜»å¡
              break;
           }
           else{
@@ -240,7 +245,7 @@ void cgi_handle::req_static_file(const char *path,const char* content_type)
 
 
 #ifdef _USE_HTTP_SSL
-//´¦Àí¾²Ì¬ÎÄ¼şÇëÇó
+//httpsæƒ…å†µä¸‹è¯·æ±‚é™æ€æ–‡ä»¶
 void cgi_handle::https_req_static_file(const char *path,const char* content_type)
 {
     printf("%s\n",path);
@@ -248,14 +253,15 @@ void cgi_handle::https_req_static_file(const char *path,const char* content_type
     assert(fd);
     unsigned long long length = lseek(fd, 0, SEEK_END);
     lseek(fd,0,SEEK_SET);
-    printf("%lld\n",length); //ÎÄ¼ş³¤¶È
+    printf("%lld\n",length); //æ‰“å°æ–‡ä»¶é•¿åº¦
 
-    //·¢ËÍÍ·²¿
+    //è¿”å›å“åº”æŠ¥å¤´
     char http_buff[1024]={0};
     int head_size=CHttpResponseMaker::make_headers(length,http_buff,content_type);
     SSL_write(this->ssl,http_buff,head_size);
-
-     //sendfile·¢ËÍÊı¾İ
+     
+     
+     //æ–‡ä»¶åˆ†å—è¯»å–
      long chuck=1024*200;
      long i=0;
      long total=length;
@@ -281,7 +287,7 @@ void cgi_handle::https_req_static_file(const char *path,const char* content_type
 #endif
 
 
-//´¦ÀíServletÇëÇó
+//è¯·æ±‚servlet
 void cgi_handle::req_servlet(ServletRegister *sr,string uri){
 
     #ifdef _USE_HTTP_SSL
@@ -291,12 +297,12 @@ void cgi_handle::req_servlet(ServletRegister *sr,string uri){
     #endif
 
     struct rb_root mp=sr->get_url_map();
-    //²éÕÒurl¶ÔÓ¦µÄÉÏÏÂÎÄ
+    //æŸ¥æ‰¾å¯¹åº”çš„servletæ¨¡å—
     struct node_data_type type;
     type.url=uri;
     struct node_type *node=rbtree_search(&mp,&type);
 
-    //ÉÏÏÂÎÄÎª¿Õ£¬ÔòÇëÇóµÄÂ·¾¶Ã»ÓĞ
+    //å¦‚è¿‡è·¯å¾„ä¸å­˜åœ¨
     if(node == NULL)
     {
        string res;
@@ -311,7 +317,7 @@ void cgi_handle::req_servlet(ServletRegister *sr,string uri){
    }
 
    Context *context=node->data_content->context;
-   //ÔÚÕâÀï³õÊ¼»¯ServletÊı¾İ
+   //å¦‚æœè·¯å¾„å­˜åœ¨ï¼Œåˆ™ç›´æ¥è°ƒç”¨å¯¹åº”çš„æ–¹æ³•å¤„ç†
    context->get_servlet()->create(this->req,this->rsp);
 }
 

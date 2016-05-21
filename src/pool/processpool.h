@@ -117,7 +117,9 @@ static void addfd(int epollfd,int fd)
 	event.events=EPOLLIN|EPOLLET;
 	epoll_ctl(epollfd,EPOLL_CTL_ADD,fd,&event);
 #ifndef _USE_HTTP_SSL
-    setnonblocking(fd);//如果设置为非阻塞，那么数据还没有发送出去，send()将会返回
+//如果设置为非阻塞，那么数据还没有发送出去，send()将会返回
+//使用SSL编程，文件描述符必须是阻塞的。
+    setnonblocking(fd);
 #endif
 }
 

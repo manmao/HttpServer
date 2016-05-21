@@ -25,13 +25,13 @@
   #include "config_ssl.h"
 #endif
 
-/* ÓÃÓÚ´¦Àí¿Í»§CGI ÇëÇóµÄÀà£¬Ëü¿ÉÒÔ×÷Îªprocesspool ÀàµÄÄ£°æ²ÎÊı */
+/* æ¯ä¸ªå®¢æˆ·ç«¯å¯¹åº”äº†ä¸€ä¸ªcig_conn */
 class cgi_conn
 {
 public:
     cgi_conn();
     ~cgi_conn();
-    /* ³õÊ¼»¯¿Í»§Á¬½Ó£¬Çå¿Õ¶Á»º³åÇø */
+    /* åˆå§‹åŒ–*/
     void init(int epollfd,int sockfd,const sockaddr_in& client_addr,threadpool<cgi_handle> *tp,Config *config);
     void process();
 #ifdef _USE_HTTP_SSL
