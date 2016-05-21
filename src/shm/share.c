@@ -1,4 +1,4 @@
-#include "share.h"
+ï»¿#include "share.h"
 
 void init_sem(struct share_context* context,enum MEM_OP_TYPE type,const char *file_path)
 {
@@ -8,7 +8,7 @@ void init_sem(struct share_context* context,enum MEM_OP_TYPE type,const char *fi
     int semid;
 
     if(type == MEM_WRITE){
-        //´´½¨ÐÅºÅÁ¿¼¯ºÏ
+        //èŽ·å–ä¿¡å·é‡
         semid=semget(sem_key,2,IPC_CREAT | IPC_EXCL | 0666);
         if(semid == -1)
 	    {
@@ -18,15 +18,15 @@ void init_sem(struct share_context* context,enum MEM_OP_TYPE type,const char *fi
 		        errExit("write semget %s:%d\n",__FILE__,__LINE__);
 	    }
 
-        //³õÊ¼»¯ÐÅºÅÁ¿ WRITE_SEMÎª1
+        //
 	    if(initSemAvailable(semid,WRITE_SEM) == -1)
 		    exit(-1);
-        //³õÊ¼»¯ÐÅºÅÁ¿ READ_SEM in
+
 	    if(initSemInUse(semid,READ_SEM) == -1)
 		    exit(-1);
 
     }else if(type == MEM_READ){
-        ///»ñÈ¡ÐÅºÅÁ¿
+
 	    semid = semget(sem_key,0,0);
 	    if(semid == -1)
 	    {
@@ -59,13 +59,12 @@ void init_shm(struct share_context* context,enum MEM_OP_TYPE type,const char *fi
 		      errExit("write shmat %s:%d",__FILE__,__LINE__);
 
        }else if(type == MEM_READ){
-           ///»ñÈ¡¹²ÏíÄÚ´æ¾ä±ú
+
 	       shmid = shmget(shm_key,0,0);
 	       if(shmid == -1)
                errExit("read shmget %s:%d",__FILE__,__LINE__);
 
 
-           ///»ñÈ¡´«ËÍµØÖ·
 	       shmp = shmat(shmid,NULL,SHM_RDONLY);
 	       if(shmp == (void *)-1)
                 errExit("read shmat>>%s:%d",__FILE__,__LINE__);
@@ -84,7 +83,6 @@ void write_mem(struct share_context* context,struct shm_data_type data)
 	if(reserveSem(context->semid,WRITE_SEM) == -1)//-1
         errExit("write reserveSem >>%s:%d",__FILE__,__LINE__);
 
-      //Ð´ÈëÊý¾Ý
       // memcpy(shmp->data,data,sizeof(struct node_data_type));
       context->shmp->data=data;
 
@@ -98,15 +96,15 @@ void write_mem(struct share_context* context,struct shm_data_type data)
 struct shm_data_type read_mem(struct share_context* context)
 {
     struct shm_data_type data;
-	///Ëø¶¨ÄÚ´æÇøÓò
+
 	if(reserveSem(context->semid,READ_SEM) == -1) //READ_SEM-1
 	    errExit("read reserveSem >>%s:%d",__FILE__,__LINE__);
 
-    //¶ÁÈ¡Êý¾Ý
+    
     //memcpy(data,shmp->data,sizeof(struct node_data_type));
      data=context->shmp->data;
 
-    ///ÊÍ·ÅÄÚ´æÇøÓò
+    ///é‡Šæ”¾ä¿¡å·é‡
 	if(releaseSem(context->semid,WRITE_SEM) == -1)//WRITE_SEM+1
 	    errExit("read releaseSem >>%s:%d",__FILE__,__LINE__);
 

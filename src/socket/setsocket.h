@@ -35,21 +35,20 @@ static void setnonblock(int fd)
 
 int set_socket(int sfd){
 
-    int optval; 	   //整形的选项值
-	socklen_t optlen;  //整形的选项值的长度
-	int err;		   //设置返回结果
+    int optval; 	   //
+	socklen_t optlen;  //
+	int err;		   //
 
-    /***设置端口和地址可重用**/
+
 	optval=1;
 	optlen=sizeof(optval);
 	err=setsockopt(sfd,SOL_SOCKET,SO_REUSEADDR,(char *)&optval,optlen);
 
-	/*******禁用Nagle算法***********/
 	optval=1;
 	optlen=sizeof(optval);
 	err=setsockopt(sfd,IPPROTO_TCP,TCP_NODELAY,(char *)&optval,optlen);
 
-    ///设置发送缓冲区大小
+
     int iSockBuf = 1024 * 1024;
     while ((err=setsockopt(sfd, SOL_SOCKET, SO_SNDBUF, (void*)&iSockBuf, sizeof(iSockBuf))) < 0)
     {
@@ -58,7 +57,6 @@ int set_socket(int sfd){
             break;
     }
 
-    ///设置接收缓冲区大小
     iSockBuf = 1024 * 1024;
     while((err=setsockopt(sfd, SOL_SOCKET, SO_RCVBUF, (void *)&iSockBuf, sizeof(iSockBuf))) < 0)
     {
@@ -66,9 +64,6 @@ int set_socket(int sfd){
         if (iSockBuf <= 1024) break;
     }
 
-    //设置linger,关闭close后的延迟，不进入TIME_WAIT状态
-    //struct linger{#1:开关 0关1开,#2:时间值，毫秒}
-    //strcut linger设置socket close后是否进入WAIT状态
     struct linger ling= {0, 0};
     if ((err=setsockopt(sfd, SOL_SOCKET, SO_LINGER, (void *)&ling, sizeof(ling)))!= 0)
     {
