@@ -8,22 +8,22 @@
 #include "svshm_xfr.h"
 #include "error_hdr.h"
 
-// WRITE_SEM´ú±íĞ´Èë½ø³ÌµÄĞÅºÅÁ¿ÔÚĞÅºÅ¼¯ÖĞ±àºÅ
-#define WRITE_SEM 0 //²Ù×÷ĞÅºÅÔÚĞÅºÅ¼¯ÖĞµÄ±àºÅ£¬µÚÒ»¸öĞÅºÅµÄ±àºÅÊÇ0£¬
+// WRITE_SEM 
+#define WRITE_SEM 0 //å†™è¿›ç¨‹ä¿¡å·é‡ç¼–å·
 
-//READ_SEM ´ú±í¶ÁÈ¡½ø³ÌµÄĞÅºÅÁ¿ÔÚĞÅºÅ¼¯ÖĞµÄ±àºÅ
+//READ_SEM è¯»è¿›ç¨‹ä¿¡å·é‡ç¼–å·
 #define READ_SEM  1
 
 
 enum MEM_OP_TYPE{
-    MEM_READ, //¶ÁÄÚ´æ
-    MEM_WRITE //Ğ´ÄÚ´æ
+    MEM_READ, //å†…å­˜è¯»å–
+    MEM_WRITE //å†…å­˜å†™å…¥
 };
 
 
 
 
-//¹²ÏíÊı¾İµ¥Ôª
+//å…±äº«å†…å­˜æ•°æ®ç±»å‹
 struct shm_data_type{
     int count;
     char data[1024];
@@ -46,19 +46,19 @@ struct share_context{
     extern "C"{
 #endif
 
-//³õÊ¼»¯ĞÅºÅÁ¿
+//åˆå§‹åŒ–ä¿¡å·é‡
 extern void init_sem(struct share_context* context,enum MEM_OP_TYPE type,const char *file_path);
 
-//³õÊ¼»¯¹²ÏíÄÚ´æ
+//åˆå§‹åŒ–å…±äº«å†…å­˜
 extern void init_shm(struct share_context* context,enum MEM_OP_TYPE type,const char *file_path);
 
 extern void destroy_sem(struct share_context* context,enum MEM_OP_TYPE type);
 extern void destroy_shm(struct share_context* context,enum MEM_OP_TYPE type);
 
-//Ğ´Èë¹²ÏíÄÚ´æÊı¾İ
+//å†™å†…å­˜
 extern void write_mem(struct share_context* context,struct shm_data_type data);
 
-//¶ÁÈ¡¹²ÏíÄÚ´æÊı¾İ
+//è¯»å†…è—
 extern struct shm_data_type read_mem(struct share_context* context);
 
 #ifdef __cplusplus

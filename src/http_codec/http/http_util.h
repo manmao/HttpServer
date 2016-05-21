@@ -31,13 +31,13 @@ enum HttpMethodType{
 
 
 enum HttpParamType{
-	HTTP_UTIL_PARAM_ALL,			//ËùÓĞÀàĞÍµÄ²ÎÊı
-	HTTP_UTIL_PARAM_HEADPARAM,		//Ö»»ñÈ¡HEADPARAM
-	HTTP_UTIL_PARAM_CONTENT			//Ö»»ñÈ¡CONTENT
+	HTTP_UTIL_PARAM_ALL,			//Ã‹Ã¹Ã“ÃÃ€Ã ÃÃÂµÃ„Â²ÃÃŠÃ½
+	HTTP_UTIL_PARAM_HEADPARAM,		//Ã–Â»Â»Ã±ÃˆÂ¡HEADPARAM
+	HTTP_UTIL_PARAM_CONTENT			//Ã–Â»Â»Ã±ÃˆÂ¡CONTENT
 };
 
 /////////////////////////////////////////////////////////////////////////////
-//¹¹Ôìhttp»ØÓ¦°ü
+//å“åº”æ¶ˆæ¯æ„é€ å™¨
 class CHttpResponseMaker
 {
 public:
@@ -45,9 +45,9 @@ public:
 	virtual ~CHttpResponseMaker(){}
 public:
 	static int		make(const char* szContent, int nContentLen,int totalContentLen ,char* szBuffer, int nBufferSize, const char* content_type);
-    //½«mapµÄheader¼üÖµ¶Ô×ª»¯³Éstring
+    //å°†mapè½¬åŒ–æˆheader
     static string   map_to_headerstr(map<string,string> header_map);
-    //¹¹½¨Ò»¸öhttpÍ·²¿
+    //æ„é€ å“åº”æ•°æ®åŒ…å¤´
     static int		make_headers(int totalContentLen ,char* szBuffer,const char* content_type,const char* charset="utf-8",const char *head_str="");
     static void		make_string(const string& strContent, string& strResp, string& content_type,string &charset,string& add_head);
 	static void		make_404_error(string& strResp);
@@ -58,7 +58,7 @@ private:
 };
 
 /////////////////////////////////////////////////////////////////////////////
-//¹¹Ôì²ÎÊı×Ö·û´®
+//å‚æ•°æ„é€ å™¨
 class CHttpParamStringMaker
 {
 public:
@@ -82,7 +82,7 @@ private:
 };
 
 /////////////////////////////////////////////////////////////////////////////
-//¹¹ÔìÇëÇó°ü
+//æ„é€ å‚æ•°
 class CHttpMaker	: public CHttpParamStringMaker
 {
 public:
@@ -102,7 +102,7 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////
-//¹¹ÔìGETÇëÇó°ü
+//æ„é€ getè¯·æ±‚å¤´
 class CHttpGetMaker	: public CHttpMaker
 {
 public:
@@ -121,7 +121,7 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////
-//¹¹ÔìPOSTÇëÇó°ü
+//æ„é€ postè¯·æ±‚å¤´
 class CHttpPostMaker	: public CHttpMaker
 {
 public:
@@ -140,24 +140,21 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////
-//·ÖÎöHttpµÄÊı¾İ°ü³¤¶È£¬Ö§³ÖGET\POST\RESP
+//
 class CHttpLengthAnaly
 {
 public:
 	CHttpLengthAnaly(){}
 	virtual ~CHttpLengthAnaly(){}
 public:
-	//»ñÈ¡³¤¶È£¬´íÎóÊı¾İ·µ»Ø-1£¬Êı¾İ²»ÍêÕû·µ»Ø0£¬½ÓÊÕÍêÈ«·µ»Ø>0
+	//
 	static int		get_length(const char* szData, int nDataLen);
 
-	//»ñÈ¡³¤¶È£¬´íÎóÊı¾İ·µ»Ø-1£¬Êı¾İ²»ÍêÕû·µ»Ø0£¬½ÓÊÕÍêÈ«·µ»Ø>0
-	//nContentPos·µ»ØÄÚÈİÇøÓòµÄÎ»ÖÃ
 	static int		get_length_ex(const char* szData, int nDataLen, int& nContentPos, int& nContentLen);
 };
 
 /////////////////////////////////////////////////////////////////////////////
-//½âÎö²ÎÊı
-//ËµÃ÷£ºÓÃÓÚ½âÎöÈçaaa=123&bbb=321&ccc=888Ö®ÀàµÄ×Ö·û´®
+//å‚æ•°æ„é€ å™¨
 class CHttpParamParser
 {
 public:
@@ -174,7 +171,7 @@ private:
 };
 
 /////////////////////////////////////////////////////////////////////////////
-//·ÖÀë×Ö·û´®¹¤¾ß
+//
 class CInsertTempZero
 {
 public:
@@ -195,7 +192,7 @@ private:
 };
 
 /////////////////////////////////////////////////////////////////////////////
-//HTTPĞ­Òé½âÎöÆ÷
+//HTTPæ¶ˆæ¯è§£æå™¨
 class CHttpParser
 {
 public:
@@ -212,38 +209,38 @@ public:
 
     int getContentLen();
 
-	//»ñÈ¡¸÷¸öÍ·Óò²ÎÊıÖµ
+	//è·å–http header
 	string get_head_field(const string& strFieldName);
 
-	//»ñÈ¡cookie
+	//è·å–cookie
 	string get_cookie();
 
-	//»ñÈ¡²ÎÊıÏîµÄÊıÖµ
+	//è·å–queryå‚æ•°
 	string get_param(const char* szKey);
 	int get_param_int(const char* szKey);
 
-	//»ñÈ¡²ÎÊı×Ö·û´®£¬Èç "aaa=123&bbb=321&ccc=888"
+	//è·å–å‚æ•° å¦‚ "aaa=123&bbb=321&ccc=888"
 	string	get_param_string();
 
-    //»ñÈ¡httpÇëÇóContent
+    //è·å–http body
     const char* get_content();
 
 
-	//»ñÈ¡uriÄÚÈİ£¬Èç "/update/mytest"
+	//è·å–è¯·æ±‚çš„ "/update/mytest"
 	string		get_uri();
 
-	//»ñÈ¡object£¬±ÈÈçhttp://127/aa/bb/cc?fff=999 ÖĞµÄcc
+	//è·å–http://127/aa/bb/cc?fff=999ä¸­çš„ccå€¼
 	string		get_object();
 
-	//»ñÈ¡ÀàĞÍ
+	//è·å–è¯·æ±‚
 	int			get_http_method();
 
 protected:
-	//½âÎöÍ·Óò
+	//è§£ææ–‡ç« å†…å®¹
 	bool parseField(const char* szHttpReq, int nTotalLen);
-	//½âÎöµÚÒ»ĞĞ£¬ÌáÈ¡methodºÍheadparam
+	//è§£æé¦–è¡Œæ•°æ®
 	bool parseFirstLine();
-	//½âÎömethod
+	//è§£æè¯·æ±‚æ–¹æ³•
 	bool parseMethod(const char* szFirstLine, const char* szMethod, int nMethodType);
 
 private:
@@ -256,7 +253,7 @@ private:
 	const char*			m_pszUri;
 	const char*			m_pszActParam;
 
-	CHttpParamParser	m_paramParser;		//²ÎÊı½âÎöÆ÷
+	CHttpParamParser	m_paramParser;		//å‚æ•°æ„é€ å™¨
 
 	int					m_nExtraParamType;
 };

@@ -24,7 +24,7 @@
 
    }
 
-   //·¢ËÍÊı¾İ
+   //å‘é€å›å¤æ¶ˆæ¯
    int  HttpResponse::send_reply(string content){
 
        this->header_str=CHttpResponseMaker::map_to_headerstr(this->headers);

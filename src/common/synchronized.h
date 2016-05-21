@@ -11,7 +11,7 @@ public:
     {
         initialize();
     }
-
+    //
     Synchronizable(const Synchronizable &that)
     {
         type = that.type;
@@ -92,3 +92,19 @@ private:
 #define SYNCHRONIZED_INITIALIZER Synchronizable(PTHREAD_MUTEX_NORMAL)
 #define SYNCHRONIZED_INITIALIZER_DEBUG Synchronizable(PTHREAD_MUTEX_ERRORCHECK)
 #define SYNCHRONIZED_INITIALIZER_RECURSIVE Synchronizable(PTHREAD_MUTEX_RECURSIVE)
+
+/*
+测试
+string generate(const string& prefix)
+{
+    static map<string, int>* prefixes = new map<string, int>();
+    static synchronizable(prefixes) = SYNCHRONIZED_INITIALIZER;//初始化
+    int id;
+    synchronized (prefixes) {
+        int& _id = (*prefixes)[prefix];
+        _id += 1;
+        id = _id;
+    }
+    printf("%d\n", id);
+    return prefix + "(" + ")";
+}*/

@@ -16,7 +16,7 @@ cgi_conn::~cgi_conn()
 void cgi_conn::createSSL()
 {
     this->ssl=createSSLInstence(this->config->ctx,this->m_sockfd);
-    //Ğ£Ñé¿Í»§¶ËµÄÖ¤Êé
+    //è·å–å®¢æˆ·ç«¯è¯ä¹¦
    //getClientCert(this->ssl);
 }
 #endif
@@ -40,13 +40,13 @@ void cgi_conn::init(int epollfd,
 
 void cgi_conn::process()
 {
-    //Ã¿´ÎÓĞÊı¾İµ½À´¾Í´´½¨Ò»¸ö´¦ÀíÏß³ÌÀ´¶ÁÈ¡Êı¾İÖ´ĞĞ
+    //
 #ifdef _USE_HTTP_SSL
     this->ch=new cgi_handle(this->m_epollfd,this->m_sockfd,this->m_address,this->config,this->ssl);
 #else
     this->ch=new cgi_handle(this->m_epollfd,this->m_sockfd,this->m_address,this->config);
 #endif
-    //Ìí¼Óµ½Ïß³Ì³Ø¶ÓÁĞ£¬ÔÚthreadpool.hÖĞµÄvoid threadpool<T> ::run()µ¯³ö¶ÓÁĞ
+    //
     bool ret=this->tp->append(this->ch);
     assert(ret == true);
 }

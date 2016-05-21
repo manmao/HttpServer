@@ -8,7 +8,7 @@ struct rb_root rbtree_init()
    return mytree;
 }
 
-//Êý¾Ý·ÖÅä
+//æŸ¥è¯¢
 struct node_type *rbtree_search(struct rb_root *root, struct node_data_type *data_content)
 {
     struct rb_node *node = root->rb_node;

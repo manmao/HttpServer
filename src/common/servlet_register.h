@@ -17,7 +17,7 @@ public:
         return this->url_map;
     }
 
-    //×¢²áÒ»¸öServlet
+    //å°†urlå’Œservletç»‘å®š
     void register_servlet(string url,Servlet *servlet)
     {
           Context *context=new Context();

@@ -14,7 +14,7 @@
 
 int main(int argc,char *argv[])
 {
-    //初始化配置
+    //鏂板缓config
     Config *config=NULL;
     if(argc == 2){
        config=new Config(argv[1]);
@@ -26,11 +26,11 @@ int main(int argc,char *argv[])
 #ifdef _USE_HTTP_SSL
     //init ssl
     config->init_ssl();
-    //初始化端口连接
+    //寮�鍚痵ocket鐩戝惉
     int listenfd=inetListen(config->https_port.c_str(),config->backlog, NULL);
     printf("***********INIT HTTPS SERVER **************\n");
 #else
-     //初始化端口连接
+     
      int listenfd=inetListen(config->http_port.c_str(),config->backlog, NULL);
      printf("***********INIT HTTP SERVER**************\n");
 #endif
@@ -45,7 +45,7 @@ int main(int argc,char *argv[])
         delete pool;
     }
 
-    //正如前文提到的，main函数创建了文件描述符 listenfd,那么就由它亲自关闭之
+    //鍏抽棴鐩戝惉
     close(listenfd);
 
     delete config;

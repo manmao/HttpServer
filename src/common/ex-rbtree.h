@@ -29,7 +29,7 @@ struct node_data_type{
     Context *context;
 };
 
-//新建自己的数据
+//鑷畾涔塶ode
 struct node_type {
     struct rb_node  my_node;
     struct node_data_type *data_content;
