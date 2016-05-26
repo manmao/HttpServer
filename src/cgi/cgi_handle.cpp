@@ -82,8 +82,8 @@ int cgi_handle::process(ServletRegister *sr)
     #endif
        if(buflen < 0)
        {
-           if(errno== EAGAIN || errno == EINTR 
-|| errno == EWOULDBLOCK){ //如果读取完成，
+          //如果读取完成，
+           if(errno== EAGAIN || errno == EINTR || errno == EWOULDBLOCK){ 
                break;
            }else{
                //如果读取出错，则返回错误页面

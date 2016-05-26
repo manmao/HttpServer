@@ -100,12 +100,12 @@ void * threadpool<T>::worker(void *arg)
 }
 
 
-
 template <typename T>
 void threadpool<T> ::run()
 {
     //每个线程都初始化所有的Servlet
     ServletRegister *sr=new ServletRegister();
+    //register.cpp文件中的regist_servlet方法，调用全局函数来注册servlet
     regist_servlet(sr);
 
 	while(!m_stop)

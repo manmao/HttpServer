@@ -27,11 +27,8 @@ public:
           content->url=url;
           rbtree_insert(&this->url_map,content);
     }
-
 private:
     struct rb_root url_map;
-
-
 };
 
 #endif
