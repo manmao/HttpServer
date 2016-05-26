@@ -1,5 +1,6 @@
 #ifndef __SERVER_LET_H
 #define __SERVER_LET_H
+
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
@@ -23,7 +24,8 @@ class Servlet{
 public:
     Servlet();
     virtual ~Servlet();
-    void create(HttpRequest*parser,HttpResponse *rsp);//放入构造数据，解析req
+    //鍒涘缓涓�涓猄ervlet瀹炰緥
+    void create(HttpRequest*parser,HttpResponse *rsp);
 public:
     //post method
     virtual void post(HttpRequest*req,HttpResponse *rsp)=0;

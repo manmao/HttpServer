@@ -10,6 +10,7 @@ Servlet::~Servlet()
 {
 
 }
+
 void Servlet::create(HttpRequest*parser,HttpResponse *rsp)
 {
     this->rsp=rsp;
