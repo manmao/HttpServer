@@ -12,3 +12,8 @@ make USE_HTTP_SSL=TRUE  编译https服务器.，需要提前安装openssl,我使
   自定义系统配置文件位置
   ./bin/http_cpp config_file_path
 
+
+openssl生成privkey.pem 和cacert.pem
+#:openssl genrsa -out privkey.pem 2048
+#:openssl req -new -x509 -key privkey.pem -out cacert.pem -days 1095
+
