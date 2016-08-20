@@ -16,7 +16,7 @@ int                     /* Initialize semaphore to 1 (i.e., "available") */
 initSemAvailable(int semId, int semNum)
 {
     union semnu arg;
-    arg.val = 1;//ÐÅºÅÁ¿µÄÖµ
+    arg.val = 1;//è®¾ç½®ä¸º1
     return semctl(semId, semNum, SETVAL, arg);
 }
 int                     /* Initialize semaphore to 0 (i.e., "in use") */

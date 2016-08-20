@@ -3,7 +3,6 @@
 
 #include "servlet_register.h"
 
-
 #ifdef __cplusplus
 extern "C"{
 #endif

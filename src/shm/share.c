@@ -18,7 +18,7 @@ void init_sem(struct share_context* context,enum MEM_OP_TYPE type,const char *fi
 		        errExit("write semget %s:%d\n",__FILE__,__LINE__);
 	    }
 
-        //
+      //
 	    if(initSemAvailable(semid,WRITE_SEM) == -1)
 		    exit(-1);
 
@@ -77,15 +77,14 @@ void init_shm(struct share_context* context,enum MEM_OP_TYPE type,const char *fi
 }
 
 
+
 void write_mem(struct share_context* context,struct shm_data_type data)
 {
 	//
 	if(reserveSem(context->semid,WRITE_SEM) == -1)//-1
         errExit("write reserveSem >>%s:%d",__FILE__,__LINE__);
-
       // memcpy(shmp->data,data,sizeof(struct node_data_type));
       context->shmp->data=data;
-
 	//
 	if(releaseSem(context->semid,READ_SEM) == -1)//+1
 	    errExit("write releaseSem >>%s:%d",__FILE__,__LINE__);
@@ -128,7 +127,7 @@ void destroy_sem(struct share_context* context,enum MEM_OP_TYPE type)
 
 void destroy_shm(struct share_context* context,enum MEM_OP_TYPE type)
 {
-
+  
     ///detach
     if(shmdt(context->shmp) == -1)
            errExit("shmdt>>%s:%d",__FILE__,__LINE__);
@@ -136,7 +135,6 @@ void destroy_shm(struct share_context* context,enum MEM_OP_TYPE type)
     if(type == MEM_WRITE){
         if(shmctl(context->shmid,IPC_RMID,0) == -1)
 	        errExit("write shmctl >>%s:%d",__FILE__,__LINE__);
-
     }
 }
 

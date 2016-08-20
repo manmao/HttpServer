@@ -1,0 +1,13 @@
+1.SSL添加:(SSL_preliminaries,createSSLInstence两个函数在ssl/config_ssl.cpp中)
+	绑定SSL的文件描述符必须设置为阻塞模式
+	(1)初始化SSL 在 server_main.cpp 中 config->init_ssl();
+
+	SSL_preliminaries()函数返回SSL_CTX*对象指针。
+
+	(2)processpool.h中run_child函数中e内poll循环体，TCP 接口accept获取客户端连接后，设置accept连接的客户端fd为非阻塞模式，然后绑定ssl(cgi_conn.cpp  cgi_conn::init中 
+	this->createSSL();把连接的客户端的文件描述符号绑定到SSL)
+
+ 	SSL* createSSLInstence返回SSL对象
+
+	(3)int err=SSL_write(this->ssl, buf,size); 写
+	   buflen = SSL_read(this->ssl,buff,size); 读
