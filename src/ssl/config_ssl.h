@@ -32,6 +32,13 @@
 #define CHK_ERR(err,s) if ((err)==-1) { perror(s); exit(1); }
 #define CHK_SSL(err) if ((err)==-1) { ERR_print_errors_fp(stderr);exit(2); }
 
+/**
+*   int len = SSL_write(SSL* ssl ,char *buf, strlen(buf)); ssl发送
+* 
+* 
+*   int len = SSL_read(SSL* ssl, char *buf, MAXBUF);　ssl接收
+* 
+*/
 
 #ifdef __cplusplus
  extern "C"{
@@ -48,6 +55,7 @@ extern void getClientCert(SSL* ssl);
 
 //释放ssl
 extern void freeSSL(SSL_CTX* ctx,SSL* ssl);
+
 
 
 #ifdef __cplusplus
