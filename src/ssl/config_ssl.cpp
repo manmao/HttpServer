@@ -1,6 +1,7 @@
 #ifdef _USE_HTTP_SSL
 #include "config_ssl.h"
 
+//初始化时调用，根据证书生成一个SSL上下文
 SSL_CTX* SSL_preliminaries(const char *certpath,const char *keypath){
 
    printf("%s %s\n",certpath,keypath);
@@ -39,6 +40,7 @@ SSL_CTX* SSL_preliminaries(const char *certpath,const char *keypath){
 }
 
 
+//当套接字编程 accept()获取到客户端链接时，通过此函数，创建SSL对象
  SSL* createSSLInstence(SSL_CTX* ctx,int sd){
 
       /* TCP connection is ready. Do server side SSL. */
@@ -56,6 +58,7 @@ SSL_CTX* SSL_preliminaries(const char *certpath,const char *keypath){
       //printf ("SSL connection using %s\n", SSL_get_cipher (ssl));
       return ssl;
 }
+
 
 /* Get client's certificate (note: beware of dynamic allocation) - opt */
 void getClientCert(SSL* ssl)
@@ -89,6 +92,7 @@ void getClientCert(SSL* ssl)
 }
 
 
+//释放连接
 void freeSSL(SSL_CTX* ctx,SSL* ssl)
 {
     /* 关闭 SSL 连接 */
