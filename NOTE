@@ -4,7 +4,7 @@
 
 	SSL_preliminaries()函数返回SSL_CTX*对象指针。
 
-	(2)processpool.h中run_child函数中epoll循环体内，TCP 接口accept获取客户端连接后，设置accept连接的客户端fd为非阻塞模式，然后绑定ssl(cgi_conn.cpp  cgi_conn::init中 
+	(2)processpool.h中run_child函数中epoll循环体内，TCP 接口accept获取客户端连接后，设置accept连接的客户端fd为阻塞模式，然后绑定ssl(cgi_conn.cpp  cgi_conn::init中 
 	this->createSSL();把连接的客户端的文件描述符号绑定到SSL)
 
  	SSL* createSSLInstence返回SSL对象
