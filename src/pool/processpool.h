@@ -192,8 +192,8 @@ processpool<T>::processpool(int listenfd,int process_number):m_listenfd(listenfd
 	m_sub_process=new process[process_number];
 	assert(m_sub_process);
 
-    int cpu_num=core_count();
-    printf("cpu num:%d\n",cpu_num);
+    	int cpu_num=core_count();
+    	printf("cpu num:%d\n",cpu_num);
 
 	/*****创建process_number个子进程，并建立它们和父进程之间的管道*****/
 	for(int i=0;i<process_number;i++)
@@ -228,8 +228,8 @@ void processpool<T>::setup_sig_pipe()
 	m_epollfd=epoll_create(MAX_EVENT_NUMBER+2);
 	assert(m_epollfd!=-1);
 
-    int ret=socketpair(PF_UNIX,SOCK_STREAM,0,sig_pipefd);
-    assert(ret != -1);
+    	int ret=socketpair(PF_UNIX,SOCK_STREAM,0,sig_pipefd);
+    	assert(ret != -1);
 
 	setnonblocking(sig_pipefd[1]);
 	addfd(m_epollfd,sig_pipefd[0]); //将信号源的读端口文件描述符 添加到epoll
@@ -299,8 +299,8 @@ void processpool<T>::run_child(Config *config)
 				else
 				{
 				    while(1)
-                    {
-                        struct sockaddr_in client_address;
+                    		   {
+                        		    struct sockaddr_in client_address;
 					    socklen_t client_addrlength=sizeof(client_address);
 					    int connfd=accept(m_listenfd,(struct sockaddr *)
 						        &client_address,&client_addrlength);
@@ -308,18 +308,18 @@ void processpool<T>::run_child(Config *config)
 					    if(connfd <= 0) //
 					    {
 						    printf("accept errno is:%d\n",errno);
-                            break;
+                            			    break;
 					    }
 
 					    addfd(m_epollfd,connfd);
-                        //printf(" %s,%d   connfd:%d\n",__FILE__,__LINE__,connfd);
+                        		    //printf(" %s,%d   connfd:%d\n",__FILE__,__LINE__,connfd);
 					    /**模版类T必须实现init方法，以初始化一个客户端连接。
 					    我们直接使用connfd来索引逻辑处理对象，提高程序效率**/
 					    user[connfd].init(m_epollfd,connfd,client_address,tp,config);
-                    }
-                    continue;
-				}
-                printf("request comming !!!!!\n");
+                    		}
+                    		continue;
+			      }
+                	      printf("request comming !!!!!\n");
 			}
 			else if((sockfd == sig_pipefd[0]) && (events[i].events&EPOLLIN))
 			{
@@ -339,6 +339,7 @@ void processpool<T>::run_child(Config *config)
 							{
 								pid_t pid;
 								int stat;
+								// 回收子进程,回收成功一个,返回子进程的pid,WNOHANG 不阻塞
 								while((pid = waitpid(-1,&stat,WNOHANG))>0)
 								{
 									continue;
@@ -387,17 +388,17 @@ void processpool<T>::run_parent()
 	setup_sig_pipe();
 	/** 父进程监听 m_listenfd **/
 	addfd(m_epollfd,m_listenfd);
-    epoll_event events[MAX_EVENT_NUMBER];
+    	epoll_event events[MAX_EVENT_NUMBER];
 	int sub_process_counter=0;
 	int new_conn=1;
 	int number=0;
 	int ret=-1;
-     int count=0;
+     	int count=0;
 	while(!m_stop)
 	{
 		number=epoll_wait(m_epollfd,events,MAX_EVENT_NUMBER,-1);
 
-        if((number<0) && (errno != EINTR))
+        	if((number<0) && (errno != EINTR))
 		{
 			printf("epoll failuer\n");
 			break;
@@ -425,8 +426,8 @@ void processpool<T>::run_parent()
 				sub_process_counter=(i+1)%m_process_number;
 				send(m_sub_process[i].m_pipefd[0],(char *)&new_conn,sizeof(new_conn),0);
 				printf("send request to child %d\n",i);
-                count++;
-                printf("连接数量:%d\n",count);
+                		count++;
+                		printf("连接数量:%d\n",count);
 			}
 			/*** 处理父进程接收到的信号 ***/
 			else if((sockfd == sig_pipefd[0]) && (events[i].events & EPOLLIN))
@@ -476,9 +477,9 @@ void processpool<T>::run_parent()
 							case SIGTERM:
 							case SIGINT:
 							{
-			/*如果父进程接收到终止信号，那么就杀死所有子进程，并等待他们全部结束。
-			当然，通知子进程结束更好的方法是向父，
-			子进程之间的通信管道发送特殊数据，读者不妨自己实现之*/
+								/*如果父进程接收到终止信号，那么就杀死所有子进程，并等待他们全部结束。
+								当然，通知子进程结束更好的方法是向父，
+								子进程之间的通信管道发送特殊数据，读者不妨自己实现之*/
 								printf("kill all the child now\n");
 								for(int i=0;i<m_process_number;i++)
 								{
